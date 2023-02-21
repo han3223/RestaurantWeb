@@ -18,7 +18,7 @@ fun main() {
         Netty,
         watchPaths = listOf("Restaurant"),
         module = Application::myapp,
-        host = "localhost",
+        host = "0.0.0.0",
         port = 8080,
     ).start(wait = true)
 }
