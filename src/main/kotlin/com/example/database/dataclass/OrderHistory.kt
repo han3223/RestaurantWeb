@@ -1,6 +1,6 @@
-package com.example.database
+package com.example.database.dataclass
 
-import com.example.database.Profiles.autoIncrement
+import com.example.database.dataclass.Profiles.autoIncrement
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table
 

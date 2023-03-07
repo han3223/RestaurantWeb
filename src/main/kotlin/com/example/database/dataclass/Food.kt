@@ -1,4 +1,4 @@
-package com.example.database
+package com.example.database.dataclass
 
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table

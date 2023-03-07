@@ -1,7 +1,7 @@
-package com.example.database
+package com.example.database.dataclass
 
-import com.example.database.Foods.autoIncrement
-import com.example.database.Foods.references
+import com.example.database.dataclass.Foods.autoIncrement
+import com.example.database.dataclass.Foods.references
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table
 
