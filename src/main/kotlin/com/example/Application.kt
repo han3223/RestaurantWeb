@@ -7,9 +7,9 @@ import com.example.plugins.*
 
 
 fun Application.myapp() {
-    configureSerialization()
+//    configureSerialization()
     configureTemplating()
-    configureDatabases()
+//    configureDatabases()
     configureRouting()
 }
 
