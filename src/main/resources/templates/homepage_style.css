@@ -57,8 +57,7 @@ header>img {
 }
 
 #num,
-#num_profile_bar
-#num_mobile {
+#num_profile_bar {
     color: white;
     position: absolute;
     top: 50%;
@@ -278,7 +277,7 @@ footer {
 }
 
 
-@media all and (max-width: 1023px) {
+@media all and (max-width: 1160px) {
     header {
         min-width: 405px;
         top: -1px;
@@ -352,10 +351,10 @@ footer {
     .dropdown-toggle::after {
         display: none;
     }
-
-    .big>a {
+    
+    .big > a {
         margin: 0 8px;
-        /* background-color: #292B31; */
+        background-color: #292B31;
         border-radius: 10px;
         padding: 8px !important;
     }
@@ -363,57 +362,9 @@ footer {
     .dropdown-menu {
         display: none !important;
     }
-
-    .basket_mobile {
-        display: block !important;
-        height: auto;
-        width: auto;
-        position: fixed;
-        left: 78%;
-        top: 85%;
-        z-index: 1000;
-
-    }
-
-    .basket_container {
-        width: 55px;
-        height: 55px;
-        position: relative;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-
-    }
-
-    #basket_count {
-        margin: 0;
-        top: 10%;
-        left: 60%;
-    }
-
-    .basket_container>img {
-        width: 55px !important;
-        height: 55px !important;
-        /* aspect-ratio: 1/1 !important; */
-    }
-
-    .circle {
-        width: 70px;
-        aspect-ratio: 1/1;
-        background-color: #414b6a;
-        border-radius: 45px;
-    }
-
-    #num_mobile {
-        color: white;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
 }
 
-@media all and (min-width: 1024px) {
+@media all and (min-width: 1161px) {
     #menu-smartphone {
         display: none;
     }

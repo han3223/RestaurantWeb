@@ -44,4 +44,10 @@ dependencies {
     implementation("org.jetbrains.exposed", "exposed-dao", "0.40.1")
     implementation("org.jetbrains.exposed", "exposed-jdbc", "0.40.1")
     implementation("org.jetbrains.exposed:exposed-java-time:0.40.1")
+    implementation("org.jdbi:jdbi3-core")
+    implementation(platform("org.jdbi:jdbi3-bom:3.37.0"))
+    implementation("org.jdbi:jdbi3-core:3.37.0")
+//    implementation("org.postgresql:postgresql:42.5.0")
+    implementation("org.jdbi:jdbi3-postgres:3.37.0")
+    implementation("org.jdbi:jdbi3-kotlin:3.37.0")
 }

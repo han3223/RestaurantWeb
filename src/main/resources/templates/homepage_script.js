@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    if (window.innerWidth > 1024) {
+    if (window.innerWidth > 1151) {
 
         document.querySelectorAll('.navbar .nav-item').forEach(function (everyitem) {
 
