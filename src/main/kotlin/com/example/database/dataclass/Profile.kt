@@ -1,11 +1,15 @@
 package com.example.database.dataclass
 
-import com.example.database.dataclass.Categories.autoIncrement
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table
 
-data class Profile(val idProfile: Int? = null, val FIO: String, val telephoneNumber: String,
-                   val email: String, val password: String, val role: String, val address: Int)
+data class Profile(val idProfile: Int? = null,
+                   val FIO: String,
+                   val telephoneNumber: String,
+                   val email: String,
+                   val password: String,
+                   val role: String,
+                   val address: Int)
 
 object Profiles: Table() {
     val idProfile: Column<Int> = integer("idProfile").autoIncrement()

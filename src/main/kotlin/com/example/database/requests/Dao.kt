@@ -12,5 +12,10 @@ class Dao {
             .mapToMap()
             .list()
     }
+    fun insert(vararg args: String, table: String) {
+        var insert = handle.createQuery("insert into $args")
+            .mapToMap()
+            .list()
 
+    }
 }
