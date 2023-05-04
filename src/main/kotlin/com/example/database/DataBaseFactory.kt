@@ -17,6 +17,7 @@ object DataBaseFactory {
             SchemaUtils.create(Orders)
             SchemaUtils.create(OrderHistories)
             SchemaUtils.create(Profiles)
+            SchemaUtils.create(Subcategories)
         }
     }
 }

@@ -50,4 +50,7 @@ dependencies {
 //    implementation("org.postgresql:postgresql:42.5.0")
     implementation("org.jdbi:jdbi3-postgres:3.37.0")
     implementation("org.jdbi:jdbi3-kotlin:3.37.0")
+    implementation("org.json:json:20180813")
+
+    implementation ("io.ktor:ktor-server-sessions:$ktor_version")
 }
