@@ -59,55 +59,8 @@ $('.container_eat').hover(
     function () {
         $('.price')[$('.container_eat').index(this)].style.opacity = 1;
     }
-)
+);
 
-var product =  parseInt($('#num')[0].innerText);
-
-$('.sign_minus').click(function () {
-
-    var x = parseInt($('.number')[$('.sign_minus').index(this)].innerText);
-    if (x <= 0) {
-
-        $('.number')[$('.sign_minus').index(this)].innerText = 0;
-    } else {
-        product -= 1
-        $('.number')[$('.sign_minus').index(this)].innerText = x - 1;
-
-        if (product >= 100) {
-            $('#num_profile_bar')[0].innerText = ".."
-            $('#num')[0].innerText = "..";
-            $('#num_mobile')[0].innerText = "..";
-        } else {
-            $('#num')[0].innerText = product;
-            $('#num_profile_bar')[0].innerText = product;
-            $('#num_mobile')[0].innerText = product;
-        }
-    }
-});
-
-var listEat = { };
-
-$('.sign_plus').click(function () {
-    var eatIndex = $('.sign_plus').index(this).toString();
-    if (listEat[eatIndex])
-        listEat[eatIndex] += 1;
-    else
-        $.extend(listEat, { [eatIndex]: 1 });
-    product += 1;
-    var x = parseInt($('.number')[$('.sign_plus').index(this)].innerText);
-    $('.number')[$('.sign_plus').index(this)].innerText = x + 1;
-    if (product >= 100) {
-        $('#num_profile_bar')[0].innerText = ".."
-        $('#num')[0].innerText = "..";
-        $('#num_mobile')[0].innerText = "..";
-    } else {
-        $('#num')[0].innerText = product;
-        $('#num_profile_bar')[0].innerText = product;
-        $('#num_mobile')[0].innerText = product;
-    }
-    $.post('add-count-food', { countEat: product, listEat: JSON.stringify(listEat) }, function(data) {});
-
-});
 
 $(document).ready(function () {
     function sleep(milliseconds) {
@@ -136,6 +89,9 @@ $(document).ready(function () {
                     method: 'POST',
                     data: {countEat: product},
                     success: function (data) {
+                        $.getScript('homepage_script.js', function () {
+                            // Скрипты разблокированы
+                        });
                         // Обновляем содержимое только нужной части страницы
                         $('#content-test').html(data);
 
@@ -146,7 +102,7 @@ $(document).ready(function () {
         });
         $('#content-test').animate({height: 0}, {
             duration: 650, complete: function () {
-                $('#content-test').animate({opacity: 1, height: '100vh'}, {
+                $('#content-test').animate({opacity: 1, height: '100vh', marginTop: '140px'}, {
                     duration: 450, complete: function () {
                     }
                 });
@@ -176,7 +132,7 @@ $(document).ready(function () {
         });
         $('#content-test').animate({height: 0}, {
             duration: 650, complete: function () {
-                $('#content-test').animate({opacity: 1, height: '100vh'}, {
+                $('#content-test').animate({opacity: 1, height: '100vh', marginTop: '140px'}, {
                     duration: 450, complete: function () {
                     }
                 });
@@ -188,6 +144,72 @@ $(document).ready(function () {
         // $('.nav-item').animate({opacity: 0}, 200);
         $('#test').animate({height: 150}, 500);
     });
+});
+
+var product = parseInt($('#num')[0].innerText);
+
+var listEat = {};
+
+$(document).on('click', '.sign_minus', function() {
+    // Ваш код обработки нажатия на кнопку здесь
+    var x = parseInt($('.number')[$('.sign_minus').index(this)].innerText);
+    if (x <= 0) {
+
+        $('.number')[$('.sign_minus').index(this)].innerText = 0;
+    } else {
+        product -= 1
+        $('.number')[$('.sign_minus').index(this)].innerText = x - 1;
+
+        if (product >= 100) {
+            $('#num_profile_bar')[0].innerText = ".."
+            $('#num')[0].innerText = "..";
+            $('#num_mobile')[0].innerText = "..";
+        } else {
+            $('#num')[0].innerText = product;
+            if ($('#num_profile_bar').length) {
+                $('#num_profile_bar')[0].innerText = product;
+                $('#num_mobile')[0].innerText = product;
+            }
+        }
+    }
+    // TODO: дописать удаление из корзины
+    var eatIndex = $('.sign_minus').index(this).toString();
+    $.post('/handler/remove-count-food', {countEat: product, Index: eatIndex}, function (data) {
+    });
+    // if ($('.number')[$('.sign_minus').index(this)].innerText == 0)
+    //     $('.removable')[$('.sign_minus').index(this)].remove();
+});
+
+$(document).on('click', '.sign_plus', function() {
+    // Ваш код обработки нажатия на кнопку здесь
+    var eatIndex = $('.sign_plus').index(this).toString();
+    if (listEat[eatIndex])
+        listEat[eatIndex] += 1;
+    else
+        $.extend(listEat, {[eatIndex]: 1});
+    product += 1;
+    var x = parseInt($('.number')[$('.sign_plus').index(this)].innerText);
+    $('.number')[$('.sign_plus').index(this)].innerText = x + 1;
+    var indexEat = $('.sign_plus').index(this)
+    if (product >= 100) {
+        $('#num_profile_bar')[0].innerText = ".."
+        $('#num')[0].innerText = "..";
+        $('#num_mobile')[0].innerText = "..";
+    } else {
+        $('#num')[0].innerText = product;
+        if ($('#num_profile_bar').length) {
+            $('#num_profile_bar')[0].innerText = product;
+            $('#num_mobile')[0].innerText = product;
+        }
+    }
+
+    $.post('/handler/add-count-food', {
+        countEat: product,
+        listEat: JSON.stringify(listEat),
+        Index: indexEat
+    }, function (data) {
+    });
+
 });
 
 // function next() {

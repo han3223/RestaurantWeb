@@ -5,7 +5,7 @@ header {
 }
 
 #content-test {
-    margin-top: 140px;
+    margin-top: 0;
 }
 
 img {
@@ -214,14 +214,15 @@ img {
     z-index: 100;
     top: 8%;
     opacity: 0.2;
+    cursor: pointer;
 }
 
 .next {
-    right: 0;
+    left: 100%;
 }
 
 .back{
-    left: 0;
+    right: 100%;
 }
 
 #container_eat:not(:last-child) {
@@ -313,19 +314,33 @@ body::-webkit-scrollbar-thumb {
     height: 30px;
     aspect-ratio: 1/1;
     margin-top: 6px;
+    cursor: pointer;
 }
 
 .sign_plus {
     height: 30px;
     aspect-ratio: 1/1;
     margin-top: 6px;
+    cursor: pointer;
 }
 
 footer {
     height: 150px;
     background-color: #1f2025;
     box-shadow: 0 -30px 40px 0 black;
-    margin-top: auto;
+    margin-top: 150px;
+    position: relative;
+    top: 100%;
+}
+
+form > input {
+    width: 70%;
+    margin-bottom: 5px;
+}
+
+form > input[type="submit"] {
+    margin-top: 5px;
+    margin-bottom: 30px;
 }
 
 

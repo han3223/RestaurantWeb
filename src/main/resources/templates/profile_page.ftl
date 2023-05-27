@@ -41,7 +41,7 @@
     </div>
 </header>
 
-<div id="content-test" style="height: 100vh;">
+<div id="content-test" style="height: 100vh; margin-top: 140px">
     <section id="profile_section" class="col-md-4 col-sm-8"
              style="margin: auto;background-color: #1f2025cc; border-radius: 25px;">
         <div class="container-fluid">

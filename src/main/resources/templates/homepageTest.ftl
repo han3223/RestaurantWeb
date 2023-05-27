@@ -156,7 +156,9 @@
     </div>
 </header>
 
-<div id="content-test">
+<#assign index = 0>
+
+<div id="content-test" style="">
     <section class="w-100" id="global_section">
         <div class="container-fluid" id="content">
             <div data-bs-spy="scroll" data-bs-target="navbar_example2" data-bs-root-margin="0px 0px -40%"
@@ -193,7 +195,11 @@
                                                             <img src="/static/minus.png" alt="" class="sign_minus">
                                                         </div>
                                                         <div class="count">
-                                                            <p class="number">${eat.num}</p>
+                                                            <#list countsEat as num>
+                                                                <#if num?index == index>
+                                                                    <p class="number">${num}</p>
+                                                                </#if>
+                                                            </#list>
                                                         </div>
                                                         <div class="plus">
                                                             <img src="/static/plus.png" alt="" class="sign_plus">
@@ -202,6 +208,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <#assign index = index + 1>
                                     </#list>
                                 </div>
                                 <div class="next"></div>
