@@ -1,0 +1,191 @@
+* {
+    margin: 0;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.container_login {
+    width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: row;
+    overflow: hidden;
+
+}
+
+.form_reg {
+    margin: 0 5%;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    text-align: center;
+    background-color: rgba(18, 19, 22, 0.8);
+    padding: 20px 0;
+    border-radius: 15px;
+    box-shadow: 0 0 5px 1px #838383;
+    flex: 0 0 auto;
+    position: relative;
+}
+
+.container_long_input_log>input,
+.form_name>div>input {
+    width: 97%;
+    margin: 3px auto;
+    border: 0;
+    padding: 4px;
+    height: 30px;
+    border-radius: 3px;
+    outline: none;
+}
+
+.container_long_input>div>input {
+    width: 100%;
+    margin: 3px auto;
+    border: 0;
+    padding: 4px;
+    height: 30px;
+    border-radius: 3px;
+    outline: none;
+    justify-content: start;
+}
+
+.form_reg>input {
+    width: 70%;
+    margin: 3px auto;
+    border: 0;
+    padding: 4px;
+    height: 30px;
+    border-radius: 3px;
+    outline: none;
+}
+
+form [title] {
+    display: none;
+}
+
+.tooltip_templates {
+    display: none;
+}
+
+input:required:invalid {
+    outline: none;
+}
+
+.form_name {
+    width: calc(70% + 8px);
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    justify-content: space-between;
+}
+
+.form_name>div {
+    width: 50% !important;
+    display: flex;
+    text-align: start;
+    flex-direction: column;
+}
+
+.tooltipster-content {
+    border: 1px solid darkgray;
+    display: flex;
+    overflow: hidden !important;
+    max-height: 1000px !important;
+    border-radius: 5px;
+}
+
+.tooltipster-shadow {
+    max-height: 1000px !important;
+    border-radius: 10px;
+}
+
+.form_name>div>input {
+    width: 92% !important;
+}
+
+.form_reg>h4 {
+    margin: 15px 0 !important;
+    /* TODO: добавить шрифт */
+    font-size: 200% !important;
+    color: white !important;
+}
+
+.container_long_input>div,
+.container_long_input_log,
+.form_name>div {
+    display: flex;
+    flex-direction: column;
+    width: 72%;
+    margin: 4px auto 2px;
+    text-align: start;
+    position: relative;
+}
+
+.container_long_input>div>img,
+.form_name>div>img {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    cursor: pointer;
+    height: 15px;
+    aspect-ratio: 1/1;
+    display: none;
+}
+
+.error_block>img {
+    display: block !important;
+}
+
+label {
+    color: white;
+    font-size: 100%;
+}
+
+.invalid {
+    border: 1px red solid !important;
+}
+
+input[type="submit"] {
+    padding: 0;
+    border: 0;
+    width: calc(70% + 8px);
+    height: 40px;
+    background-color: rgb(149, 159, 170);
+    box-shadow: 0 0 3px 0 black;
+}
+
+input:active {
+    border: 0;
+}
+
+.container_additional_function {
+    display: flex;
+    width: 70%;
+    flex-direction: row;
+    margin: 10px auto;
+    justify-content: space-between;
+}
+
+.container_additional_function>h4 {
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 90%;
+    color: #292B31;
+}
+
+a {
+    text-decoration: underline;
+    color: rgb(66, 66, 151);
+}
+
+.prev {
+    position: absolute;
+    right: 20px;
+    color: white;
+    cursor: pointer;
+}

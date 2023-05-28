@@ -6,5 +6,9 @@ RUN gradle installDist --no-daemon --info
 FROM openjdk:11
 EXPOSE 8080:8080
 RUN mkdir /app
+<<<<<<< HEAD
 COPY --from=build /home/gradle/src/build/install/RestaurantWeb/ /app
+=======
+COPY --from=build /home/gradle/src/build/install/RestaurantWeb /app
+>>>>>>> origin/master
 ENTRYPOINT ["/app/bin/RestaurantWeb"]

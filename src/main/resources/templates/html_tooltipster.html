@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="profile_style.css">
+    <link rel="stylesheet" href="css/tooltipster.bundle.css">
+    <link rel="stylesheet" href="css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="container_login" id="auth">
+            <!-- <form action="" class="form_reg" id="forgot_form">
+
+				<div class="prev">x</div>
+				<h3>Forgot Password</h3>
+				<div class="container_long_input_log">
+					<label for="tel">Введите номер телефона:</label>
+					<input type="tel" placeholder="+7(9__)-___-____">
+				</div>
+				<input type="submit" value="Прислать код">
+			</form>
+			<form action="" class="form_reg" id="login_form">
+				<h3>LogIn</h3>
+				<div class="container_long_input_log">
+					<label for="tel_email">Тел/Email:</label>
+					<input type="text" name="tel_email" placeholder="+7(9__)-___-____">
+					<label for="password">Пароль:</label>
+					<input type="password" name="password" placeholder="Пароль">
+				</div>
+				<input type="submit" value="Войти">
+				<div class="container_additional_function">
+					<h4 id="forgot">Forgot password?</h4>
+					<h4 id="reg">SignUp</h4>
+				</div>
+			</form> -->
+            <form action="" class="form_reg" id="registration_form">
+                <div class="prev">x</div>
+                <h3>SignUp</h3>
+                <div class="form_name">
+                    <div>
+                        <label for="last_name">Фамилия*:</label>
+                        <input id="surname" type="text" name="last_name" placeholder="Иванов"
+                            pattern="[A-Za-zА-Яа-яЁё\s]+">
+                        <img src="референсы/article3118.jpg" alt="">
+                    </div>
+                    <div>
+                        <label for="first_name">Имя*:</label>
+                        <input id="name" type="text" name="first_name" placeholder="Иван" pattern="[A-Za-zА-Яа-яЁё\s]+">
+                        <img src="референсы/article3118.jpg" alt="">
+                    </div>
+
+                </div>
+                <div class="container_long_input">
+                    <div>
+                        <label for="tel">Телефон*:</label>
+                        <input type="tel" name="tel" id="phone" placeholder="+7(___)-___-____" minlength="16">
+                        <img src="референсы/article3118.jpg" alt="">
+                    </div>
+                    <div>
+                        <label for="email">E-mail*:</label>
+                        <input type="" id="email" name="email" placeholder="Email">
+                        <img src="референсы/article3118.jpg" alt="">
+                    </div>
+                    <div>
+                        <label for="password">Пароль*:</label>
+                        <input type="password" data-tooltip-content="#tooltip_content" placeholder="Пароль" id="pass"
+                            name="password">
+                        <img src="референсы/article3118.jpg" alt="">
+                    </div>
+                    <div>
+                        <label for="more_password">Повторите пароль:</label>
+                        <input id="pass-confirm" type="password" name="more_password" placeholder="Повторите пароль">
+                        <img src="референсы/article3118.jpg" alt="">
+                    </div>
+
+                </div>
+                <input id="sub" type="submit" value="Зарегистрироваться">
+            </form>
+
+        </div>
+    </div>
+
+    <div class="tooltip_templates">
+        <span id="tooltip_content">
+            <img class="error" src="референсы/krestik.png" style="width: 15px; aspect-ratio: 1/1;" />
+            <img class="sucsess" src="референсы/galka001.png" style="width: 15px; aspect-ratio: 1/1;" />
+            <strong>Символы в нижнем регистре</strong><br>
+            <img class="error" src="референсы/krestik.png" style="width: 15px; aspect-ratio: 1/1;" />
+            <img class="sucsess" src="референсы/galka001.png" style="width: 15px; aspect-ratio: 1/1;" />
+            <strong>Символы в верхнем регистре</strong><br>
+            <img class="error" src="референсы/krestik.png" style="width: 15px; aspect-ratio: 1/1;" />
+            <img class="sucsess" src="референсы/galka001.png" style="width: 15px; aspect-ratio: 1/1;" />
+            <strong>Хотя бы одна цифра</strong><br>
+            <img class="error" src="референсы/krestik.png" style="width: 15px; aspect-ratio: 1/1;" />
+            <img class="sucsess" src="референсы/galka001.png" style="width: 15px; aspect-ratio: 1/1;" />
+            <strong>Специальные символы</strong><br>
+            <img class="error" src="референсы/krestik.png" style="width: 15px; aspect-ratio: 1/1;" />
+            <img class="sucsess" src="референсы/galka001.png" style="width: 15px; aspect-ratio: 1/1;" />
+            <strong>Длина не менее 8 символов</strong><br>
+        </span>
+    </div>
+
+
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="js/tooltipster.bundle.js"></script>
+    <script src="/templates/igorescobar-jQuery-Mask-Plugin-535b4e4/jquery.mask.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('input').each(function () {
+                this.setCustomValidity('');
+            });
+
+            // Валидация фамилии и имени
+            $('#surname').on('input', function () {
+                var surname = $(this).val();
+                if (!isValidSurname(surname)) {
+                    $(this).addClass('invalid');
+                    $(this).attr('invalid', '');
+                    WarningMessage(this, "Допускаются только символы из алфавита", "left");
+                    $(this).tooltipster('show');
+                } else {
+                    $(this).removeClass('invalid');
+                    $(this).tooltipster('hide');
+                }
+            });
+            $('#name').on('input', function () {
+                var surname = $(this).val();
+                if (!isValidSurname(surname)) {
+                    $(this).addClass('invalid');
+                    $(this).attr('invalid', '');
+                    WarningMessage(this, "Допускаются только символы из алфавита", "right");
+                    $(this).tooltipster('show');
+                } else {
+                    $(this).removeClass('invalid');
+                    $(this).tooltipster('hide');
+                }
+            });
+            function isValidSurname(surname) {
+                var surnameRegex = /^[a-zA-Zа-яА-Я]+$/;
+                return surnameRegex.test(surname);
+            }
+
+            // Валидация телефона
+            $('#phone').mask('+7 (999) 999-99-99');
+
+
+            $('#phone').on('input', function () {
+                var maxLength = 18; // максимальное количество символов
+                var currentLength = $(this).val().length; // текущее количество символов
+                if (currentLength == maxLength) {
+                    $('#phone').removeClass('invalid');
+                    $(this).tooltipster('hide');
+                }
+                else {
+                    $('#phone').addClass('invalid');
+                    $(this).attr('invalid', '');
+                    WarningMessage(this, "Поле не заполнено", "right");
+                    $(this).tooltipster('show');
+                }
+            });
+
+
+            // Валидация электронной почты
+            $('#email').on('input', function () {
+                var email = $(this).val();
+                if (!isValidEmail(email)) {
+                    $(this).addClass('invalid');
+                    $(this).attr('invalid', '');
+                    WarningMessage(this, "Адрес электронной почты заполнен не правильно", "right");
+                    $(this).tooltipster('show');
+                } else {
+                    $(this).removeClass('invalid');
+                    $(this).tooltipster('hide');
+                }
+            });
+
+            function isValidEmail(email) {
+                var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                return emailRegex.test(email);
+            }
+
+            // Валидация пароля
+            $("#pass").on("keyup", function () {
+                var value = $(this).val();
+                if (/[a-z]/.test(value)) {
+                    $('.error')[0].style.display = 'none';
+                    $('.sucsess')[0].style.display = 'inline-block';
+                }
+                else {
+                    $('.error')[0].style.display = 'inline-block';
+                    $('.sucsess')[0].style.display = 'none';
+                }
+                if (/[A-Z]/.test(value)) {
+                    $('.error')[1].style.display = 'none';
+                    $('.sucsess')[1].style.display = 'inline-block';
+                }
+                else {
+                    $('.error')[1].style.display = 'inline-block';
+                    $('.sucsess')[1].style.display = 'none';
+                }
+                if (/[0-9]/.test(value)) {
+                    $('.error')[2].style.display = 'none';
+                    $('.sucsess')[2].style.display = 'inline-block';
+                }
+                else {
+                    $('.error')[2].style.display = 'inline-block';
+                    $('.sucsess')[2].style.display = 'none';
+                }
+                if (/[!@#$%^&*_=+\-]/.test(value)) {
+                    $('.error')[3].style.display = 'none';
+                    $('.sucsess')[3].style.display = 'inline-block';
+                }
+                else {
+                    $('.error')[3].style.display = 'inline-block';
+                    $('.sucsess')[3].style.display = 'none';
+                }
+            });
+
+            $('#pass').on('input', function () {
+                var maxLength = 16; // максимальное количество символов
+                var minLenght = 8;
+                var currentLength = $(this).val().length; // текущее количество символов
+                if (currentLength < minLenght) {
+                    $('.error')[4].style.display = 'inline-block';
+                    $('.sucsess')[4].style.display = 'none';
+                }
+                else {
+                    $('.error')[4].style.display = 'none';
+                    $('.sucsess')[4].style.display = 'inline-block'
+                }
+            });
+
+            $("#pass").on("focusin", function () {
+                $('#pass').tooltipster({
+                    animation: 'fade',
+                    theme: 'tooltipster-shadow',
+                    trigger: 'click',
+                    side: 'right',
+                    background: 'white'
+                });
+            }).on("focusout", function () {
+                $("#pass").on("keyup", function () {
+                    var pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+\-]).{8,16}$/;
+                    var value = $(this).val();
+                    if (pattern.test(value)) {
+                        $("#pass").removeClass('invalid');
+                    } else {
+                        $("#pass").addClass('invalid');
+                        $(this).attr('invalid', '');
+                    }
+                });
+            });
+            // Валидация повторите пароль
+            $('#pass-confirm').on('input', function () {
+                var password = $('#pass').val();
+                var confirmPassword = $(this).val();
+                if (password !== confirmPassword) {
+                    $(this).addClass('invalid');
+                    $(this).attr('invalid', '');
+                    WarningMessage(this, "Пароли не совпадают", "left");
+                    $(this).tooltipster('show');
+                } else {
+                    $(this).removeClass('invalid');
+                    $(this).tooltipster('hide');
+                }
+            });
+
+
+            function WarningMessage(obj, message, position) {
+                $(obj).tooltipster({
+                    animation: 'fade',
+                    theme: 'tooltipster-shadow',
+                    trigger: 'click',
+                    side: position,
+                    background: 'white',
+                    trigger: 'custom',
+                    functionBefore: function (instance, helper) {
+                        instance.content(message);
+                    }
+                });
+            }
+
+        });
+    </script>
+</body>
+
+</html>

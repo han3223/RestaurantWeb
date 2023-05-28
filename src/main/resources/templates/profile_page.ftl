@@ -7,13 +7,19 @@
           crossorigin="anonymous">
     <style>
         <#include "homepage_style.css">
+        <#include "profile_style.css">
     </style>
-    <#--	<link rel="stylesheet" href="homepage_style.css">-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="https://unpkg.com/tooltipster@4.2.8/dist/js/tooltipster.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/tooltipster@4.2.8/dist/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tooltipster@4.2.8/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css" />
+
 </head>
 
 <body style="background-image: url(/static/drawable/background.png);">
@@ -22,7 +28,7 @@
     <div class="container-fluid" id="header">
         <div class="row">
             <a href="/bonappetit" style="width: 30%; float: left">
-                <img src="/static/logo.png" alt="" id="name">
+                <img src="/static/logo.png" alt="" id="name_logo">
             </a>
             <div class="profile_basket" id="profile_basket">
                 <img src="/static/headshot.png" alt="" id="profile" class="profile">
@@ -41,34 +47,100 @@
     </div>
 </header>
 
-<div id="content-test" style="height: 100vh; margin-top: 140px">
-    <section id="profile_section" class="col-md-4 col-sm-8"
-             style="margin: auto;background-color: #1f2025cc; border-radius: 25px;">
-        <div class="container-fluid">
-            <div class="row" id="">
-                <div class="w-100" style="margin: 20px auto">
-                    <h4 style="float: left; width: 70%">Важенин Иван Анатольевич</h4>
-                    <img src="../static/headshot.jpg" class="w-25" alt=""
-                         style="float: right; aspect-ratio: 1/1; border-radius: 15px">
-                </div>
-                <div class="w-100" style="margin: auto">
-                    <h5>Тел: 89116172604</h5>
-                    <h5>Email: ivan.vazhenin34@gmail.com</h5>
-                    <h5>Адрес: ул.Коровникова, д.12, кв.101</h5>
-                </div>
+<div class="container">
+    <div class="container_login" id="auth">
+        <form action="" class="form_reg" id="forgot_form">
+
+            <div class="prev">x</div>
+            <h3>Forgot Password</h3>
+            <div class="container_long_input_log">
+                <label for="tel">Введите номер телефона:</label>
+                <input type="tel" placeholder="+7(9__)-___-____">
             </div>
-        </div>
-    </section>
+            <input type="submit" value="Прислать код">
+        </form>
+        <form action="" class="form_reg" id="login_form">
+            <h3>LogIn</h3>
+            <div class="container_long_input_log">
+                <label for="tel_email">Тел/Email:</label>
+                <input type="text" name="tel_email" placeholder="+7(9__)-___-____">
+                <label for="password">Пароль:</label>
+                <input type="password" name="password" placeholder="Пароль">
+            </div>
+            <input type="submit" value="Войти">
+            <div class="container_additional_function">
+                <h4 id="forgot">Forgot password?</h4>
+                <h4 id="reg">SignUp</h4>
+            </div>
+        </form>
+        <form action="" class="form_reg" id="registration_form">
+            <div class="prev">x</div>
+            <h3>SignUp</h3>
+            <div class="form_name">
+                <div>
+                    <label for="last_name">Фамилия*:</label>
+                    <input id="surname" type="text" name="last_name" placeholder="Иванов"
+                           pattern="[A-Za-zА-Яа-яЁё\s]+">
+                </div>
+                <div>
+                    <label for="first_name">Имя*:</label>
+                    <input id="firstname" type="text" name="first_name" placeholder="Иван" pattern="[A-Za-zА-Яа-яЁё\s]+">
+                </div>
+
+            </div>
+            <div class="container_long_input">
+                <div>
+                    <label for="tel">Телефон*:</label>
+                    <input type="tel" name="tel" id="phone" placeholder="+7(___)-___-____" minlength="16">
+                </div>
+                <div>
+                    <label for="email">E-mail*:</label>
+                    <input type="" id="email" name="email" placeholder="Email">
+                </div>
+                <div>
+                    <label for="password">Пароль*:</label>
+                    <input type="password" data-tooltip-content="#tooltip_content" placeholder="Пароль" id="pass"
+                           name="password">
+                </div>
+                <div>
+                    <label for="more_password">Повторите пароль:</label>
+                    <input id="pass-confirm" type="password" name="more_password" placeholder="Повторите пароль">
+                </div>
+
+            </div>
+            <input id="sub" type="submit" value="Зарегистрироваться">
+        </form>
+
+    </div>
 </div>
 
-<footer class="w-100">
+<div class="tooltip_templates">
+        <span id="tooltip_content">
+            <img class="error" src="../static/krestik.png" style="width: 15px; aspect-ratio: 1/1;"/>
+            <img class="sucsess" src="../static/galka001.png" style="width: 15px; aspect-ratio: 1/1;"/>
+            <strong>Символы в нижнем регистре</strong><br>
+            <img class="error" src="../static/krestik.png" style="width: 15px; aspect-ratio: 1/1;"/>
+            <img class="sucsess" src="../static/galka001.png" style="width: 15px; aspect-ratio: 1/1;"/>
+            <strong>Символы в верхнем регистре</strong><br>
+            <img class="error" src="../static/krestik.png" style="width: 15px; aspect-ratio: 1/1;"/>
+            <img class="sucsess" src="../static/galka001.png" style="width: 15px; aspect-ratio: 1/1;"/>
+            <strong>Хотя бы одна цифра</strong><br>
+            <img class="error" src="../static/krestik.png" style="width: 15px; aspect-ratio: 1/1;"/>
+            <img class="sucsess" src="../static/galka001.png" style="width: 15px; aspect-ratio: 1/1;"/>
+            <strong>Специальные символы</strong><br>
+            <img class="error" src="../static/krestik.png" style="width: 15px; aspect-ratio: 1/1;"/>
+            <img class="sucsess" src="../static/galka001.png" style="width: 15px; aspect-ratio: 1/1;"/>
+            <strong>Длина не менее 8 символов</strong><br>
+        </span>
+</div>
+<#--<footer class="w-100">-->
 
-</footer>
-
+<#--</footer>-->
 
 <script>
     <#include "homepage_script.js">
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>

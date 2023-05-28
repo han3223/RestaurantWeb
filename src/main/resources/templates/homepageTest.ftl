@@ -7,13 +7,18 @@
           crossorigin="anonymous">
     <style>
         <#include "homepage_style.css">
+        <#include "profile_style.css">
     </style>
-    <#--	<link rel="stylesheet" href="homepage_style.css">-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="https://unpkg.com/tooltipster@4.2.8/dist/js/tooltipster.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/tooltipster@4.2.8/dist/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tooltipster@4.2.8/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css" />
 </head>
 
 <body style="background-image: url(/static/drawable/background.png);">
@@ -22,7 +27,7 @@
     <div class="container-fluid" id="header">
         <div class="row">
             <a href="/bonappetit" style="width: 30%; float: left">
-                <img src="/static/logo.png" alt="" id="name">
+                <img src="/static/logo.png" alt="" id="name_logo">
             </a>
 
             <div class="profile_basket" id="profile_basket">
@@ -164,7 +169,7 @@
             <div data-bs-spy="scroll" data-bs-target="navbar_example2" data-bs-root-margin="0px 0px -40%"
                  data-bs-smooth-scroll="true" class="scrollspy-example p-3 rounded-2" tabindex="0">
                 <#list categories as category>
-                    <div class="row" id="${category.route}">
+                    <div class="row" id="${category.route}" style="flex-direction: column">
                         <h4 id="chapter">${category.category}</h4>
                         <img src="/static/drawable/line.png" alt="" id="line">
                         <#list category.subcategory as subcategory>
@@ -231,11 +236,9 @@
     </section>
 </div>
 
-<footer class="w-100">
+<#--<footer class="w-100">-->
 
-</footer>
-
-
+<#--</footer>-->
 <script>
     <#include "homepage_script.js">
 </script>

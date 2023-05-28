@@ -20,12 +20,12 @@ header>img {
     box-shadow: black 0px -30px 40px 60px;
 }
 
-#name {
-    min-width: 300px;
+#name_logo {
+    /*min-width: 300px;*/
     width: 370px;
     height: auto;
     float: left;
-    margin: 35px 0 0 65px;
+    /*margin: 35px 0 0 65px;*/
 }
 
 #profile_basket {

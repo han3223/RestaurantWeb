@@ -129,7 +129,7 @@ fun Route.getHomepage() {
             call.respond(FreeMarkerContent("basket.ftl", params, "e"))
         }
 
-        get("profile-ajax") {
+        post("profile-ajax") {
             val sessionCountEat = call.sessions.get<MySession>()
             val count = sessionCountEat?.countEat ?: 0
             val params = mapOf("count" to count)
