@@ -4,7 +4,7 @@ import com.example.Eats
 import com.example.EatsCount
 import com.example.MySession
 import com.example.bonappetitandroid.*
-import com.example.database.requests.Dao
+import com.example.bonappetitandroid.repository.client.SupabaseProfileClient
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
@@ -12,13 +12,12 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
-import kotlinx.css.times
 import org.json.JSONObject
 import java.util.*
 
 
 fun Route.getHomepage() {
-    val dao: Dao = Dao()
+
     val eats = listOf(
         Category(ColdSnacks().line.title, "cold_snacks", ColdSnacks().subcategory),
         Category(Salads().Line.title, "salads", Salads().subcategory),
@@ -60,6 +59,8 @@ fun Route.getHomepage() {
         get {
             val session = call.sessions.get<MySession>()
             val count = session?.countEat ?: 0
+
+            println("${SupabaseProfileClient().getProfileData()}")
 
             if (count == 0) {
                 val countEatList = mutableListOf<Int>()

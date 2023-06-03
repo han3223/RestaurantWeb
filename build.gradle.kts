@@ -53,4 +53,17 @@ dependencies {
     implementation("org.json:json:20180813")
 
     implementation ("io.ktor:ktor-server-sessions:$ktor_version")
+
+    implementation("io.ktor:ktor-client-cio:$ktor_version")
+
+    implementation(platform("io.github.jan-tennert.supabase:bom:0.8.4"))
+    implementation("io.github.jan-tennert.supabase:gotrue-kt")
+    implementation("io.github.jan-tennert.supabase:postgrest-kt:0.8.4")
+    implementation("org.slf4j:slf4j-api:1.6.6")
 }
+
+//configurations {
+//    all {
+//        exclude (group= "org.slf4j", module= "slf4j-api")
+//    }
+//}
