@@ -1,4 +1,4 @@
-package com.example.bonappetitandroid.repository.dataClient
+package com.example.repository.dataClient
 
 class SupabaseDataClientOrderHistory {
 }

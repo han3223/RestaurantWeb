@@ -1,6 +1,6 @@
-package com.example.bonappetitandroid.repository.dataClient
+package com.example.repository.dataClient
 
-import com.example.bonappetitandroid.dto.Address
+import com.example.dto.Address
 
 interface SupabaseDataClientAddress {
     suspend fun getAddress() : List<Address>

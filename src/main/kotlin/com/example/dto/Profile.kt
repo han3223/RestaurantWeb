@@ -1,4 +1,4 @@
-package com.example.bonappetitandroid.dto
+package com.example.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -4,7 +4,7 @@ import com.example.Eats
 import com.example.EatsCount
 import com.example.MySession
 import com.example.bonappetitandroid.*
-import com.example.bonappetitandroid.repository.client.SupabaseProfileClient
+import com.example.repository.client.SupabaseProfileClient
 import com.example.dto.Category
 import com.example.dto.CategoryDTO
 import com.example.dto.Food

@@ -1,14 +1,12 @@
-package com.example.bonappetitandroid.repository.client
+package com.example.repository.client
 
-import com.example.bonappetitandroid.dto.Profile
-import com.example.bonappetitandroid.repository.dataClient.SupabaseDataClientProfile
+import com.example.dto.Profile
+import com.example.repository.dataClient.SupabaseDataClientProfile
 import io.github.jan.supabase.annotiations.SupabaseExperimental
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.plugins.standaloneSupabaseModule
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.postgrest
-import org.jetbrains.exposed.sql.Column
-import org.jetbrains.exposed.sql.ColumnSet
 
 
 class SupabaseProfileClient : SupabaseDataClientProfile {
@@ -49,11 +47,5 @@ class SupabaseProfileClient : SupabaseDataClientProfile {
 
     override suspend fun addProfileData() {
         val insert = client.postgrest["public", "profile"].insert(Profile)
-    }
-
-    override suspend fun deleteProfileData() {
-        val delete = client.postgrest["public", "profile"].delete {
-
-        }
     }
 }
