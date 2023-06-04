@@ -7,6 +7,8 @@ import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.plugins.standaloneSupabaseModule
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.postgrest
+import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.ColumnSet
 
 
 class SupabaseProfileClient : SupabaseDataClientProfile {
@@ -34,6 +36,17 @@ class SupabaseProfileClient : SupabaseDataClientProfile {
 
         return result
     }
+
+    override suspend fun getEmail() : List<Profile> {
+        val result = client.postgrest["public", "profile"].select("email").decodeList<Profile>()
+        return result
+    }
+
+    override suspend fun getPassword(): List<Profile> {
+        val result = client.postgrest["public", "profile"].select("password").decodeList<Profile>()
+        return result
+    }
+
     override suspend fun addProfileData() {
         val insert = client.postgrest["public", "profile"].insert(Profile)
     }
