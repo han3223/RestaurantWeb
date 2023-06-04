@@ -53,7 +53,7 @@
                     <div class="collapse navbar-collapse" id="main_nav" style="justify-content: center;">
                         <ul class="navbar-nav nav">
                             <li class="nav-item dropdown big">
-                                <a class="nav-link  dropdown-toggle" href="#cold_snacks" data-bs-toggle="dropdown"
+                                <a class="nav-link  dropdown-toggle" href="#cold" data-bs-toggle="dropdown"
                                    aria-expanded="false">Холодные закуски</a>
                                 <ul class="dropdown-menu" style="background-color: #292B31;">
                                     <li><a class="dropdown-item" href="#cold_fish" style="color: white;">Рыбные</a>
@@ -80,7 +80,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown big">
-                                <a class="nav-link  dropdown-toggle" href="#hot_snacks"
+                                <a class="nav-link  dropdown-toggle" href="#hot"
                                    data-bs-toggle="dropdown">Горячие
                                     закуски</a>
                                 <ul class="dropdown-menu" style="background-color: #292B31;">
@@ -91,53 +91,53 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown big">
-                                <a class="nav-link  dropdown-toggle" href="#first_courses"
+                                <a class="nav-link  dropdown-toggle" href="#first"
                                    data-bs-toggle="dropdown">Первые
                                     блюда</a>
                                 <ul class="dropdown-menu" style="background-color: #292B31;">
-                                    <li><a class="dropdown-item" href="#first_courses_1"
+                                    <li><a class="dropdown-item" href="#first_broth"
                                            style="color: white;">Бульоны</a>
                                     </li>
-                                    <li><a class="dropdown-item" href="#first_courses_2"
+                                    <li><a class="dropdown-item" href="#first_filler"
                                            style="color: white;">Заправочные
                                             супы</a>
                                     </li>
-                                    <li><a class="dropdown-item" href="#first_courses_3"
+                                    <li><a class="dropdown-item" href="#first_pure"
                                            style="color: white;">Пюреобразные
                                             супы</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown big">
-                                <a class="nav-link  dropdown-toggle" href="#second_courses"
+                                <a class="nav-link  dropdown-toggle" href="#second"
                                    data-bs-toggle="dropdown">Вторые
                                     блюда</a>
                                 <ul class="dropdown-menu" style="background-color: #292B31;">
-                                    <li><a class="dropdown-item" href="#first_courses_fish"
+                                    <li><a class="dropdown-item" href="#second_fish"
                                            style="color: white;">Рыбные
                                             основные</a>
                                     </li>
-                                    <li><a class="dropdown-item" href="#first_courses_meat"
+                                    <li><a class="dropdown-item" href="#second_meat"
                                            style="color: white;">Мясные
                                             основные</a>
                                     </li>
-                                    <li><a class="dropdown-item" href="#first_courses_veg"
+                                    <li><a class="dropdown-item" href="#second_veg"
                                            style="color: white;">Овощные</a>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item big"><a class="nav-link" href="#side_dishes">Гарниры</a></li>
+                            <li class="nav-item big"><a class="nav-link" href="#garnish">Гарниры</a></li>
                             <li class="nav-item big"><a class="nav-link" href="#desserts">Десерты</a></li>
                             <li class="nav-item dropdown big">
                                 <a class="nav-link  dropdown-toggle" href="#drinks"
                                    data-bs-toggle="dropdown">Напитки</a>
                                 <ul class="dropdown-menu" style="background-color: #292B31;">
-                                    <li><a class="dropdown-item" href="#cold_drinks"
+                                    <li><a class="dropdown-item" href="#drinks_cold"
                                            style="color: white;">Холодные</a>
                                     </li>
-                                    <li><a class="dropdown-item" href="#hot_drinks"
+                                    <li><a class="dropdown-item" href="#drinks_cold"
                                            style="color: white;">Горячие</a>
                                     </li>
-                                    <li><a class="dropdown-item" href="#alk_drinks"
+                                    <li><a class="dropdown-item" href="#drinks_alcohol"
                                            style="color: white;">Алкогольные</a>
                                     </li>
                                 </ul>
@@ -173,9 +173,11 @@
                         <h4 id="chapter">${category.category}</h4>
                         <img src="/static/drawable/line.png" alt="" id="line">
                         <#list category.subcategory as subcategory>
-                            <a id="${subcategory.route}"></a>
-                            <h5 id="subsection">${subcategory.subcategory}</h5>
-                            <img src="/static/drawable/line.png" alt="" id="subline">
+                            <#if subcategory.route??>
+                                <a id="${category.route}_${subcategory.route}"></a>
+                                <h5 id="subsection">${subcategory.subcategory}</h5>
+                                <img src="/static/drawable/line.png" alt="" id="subline">
+                            </#if>
                             <div id="carouselExample" class="carousel slide">
                                 <div class="back"></div>
                                 <div class="carousel-inner d-flex" id="carousel_eat">

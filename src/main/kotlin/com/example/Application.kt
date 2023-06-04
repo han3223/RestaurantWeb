@@ -10,8 +10,8 @@ import io.ktor.server.sessions.*
 import kotlinx.serialization.Serializable
 
 data class MySession(val countEat: Int = 0)
-data class Eats(val index: MutableList<Int>, val count: MutableList<Int>)
-
+data class Eats(val index: MutableList<Int>)
+@Serializable
 data class EatsCount(val num: MutableList<Int>)
 
 fun Application.myapp() {

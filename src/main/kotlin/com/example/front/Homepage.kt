@@ -5,6 +5,11 @@ import com.example.EatsCount
 import com.example.MySession
 import com.example.bonappetitandroid.*
 import com.example.bonappetitandroid.repository.client.SupabaseProfileClient
+import com.example.dto.Category
+import com.example.dto.CategoryDTO
+import com.example.dto.Food
+import com.example.dto.Subcategory
+import com.example.repository.client.SupabaseFoodClient
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
@@ -17,90 +22,71 @@ import java.util.*
 
 
 fun Route.getHomepage() {
-
-    val eats = listOf(
-        Category(ColdSnacks().line.title, "cold_snacks", ColdSnacks().subcategory),
-        Category(Salads().Line.title, "salads", Salads().subcategory),
-        Category(HotSnacks().Line.title, "hot_snacks", HotSnacks().subcategory),
-        Category(First().Line.title, "first_courses", First().subcategory),
-        Category(Second().Line.title, "second_courses", Second().subcategory),
-        Category(Garnish().Line.title, "side_dishes", listOf(Subcategories("", "", Garnish().item))),
-        Category(Desserts().Line.title, "desserts", listOf(Subcategories("", "", Desserts().item))),
-        Category(Drinks().Line.title, "drinks", Drinks().subcategory)
-    )
-
-    val onlyFood = listOf(
-        ColdSnacks.Fish().item,
-        ColdSnacks.Meat().item,
-        ColdSnacks.Vegetables().item,
-        Salads.Fish().item,
-        Salads.Meat().item,
-        Salads.Vegetables().item,
-        HotSnacks.Fish().item,
-        HotSnacks.Meat().item,
-        First.Broth().item,
-        First.Filling().item,
-        First.Puree().item,
-        Second.Fish().item,
-        Second.Meat().item,
-        Second.Vegetables().item,
-        Garnish().item,
-        Desserts().item,
-        Drinks.Cold().item,
-        Drinks.Hot().item,
-        Drinks.Alcohol().item
-    ).flatten()
+    val listFoodSort = mutableListOf<Food>()
 
     get("/") {
         call.respondRedirect("bonappetit")
-
     }
     route("bonappetit") {
         get {
-            val session = call.sessions.get<MySession>()
-            val count = session?.countEat ?: 0
+            try {
+                val session = call.sessions.get<MySession>()
+                val count = session?.countEat ?: 0
 
-            println("${SupabaseProfileClient().getProfileData()}")
+                val categories = SupabaseFoodClient.INSTANCE.getAllCategories()
+                val realCategory = mutableListOf<Category>()
 
-            if (count == 0) {
-                val countEatList = mutableListOf<Int>()
-                onlyFood.forEach { item ->
-                    countEatList.add(item.num)
+                val allFood = SupabaseFoodClient.INSTANCE.getAllFood()
+
+                categories.forEach { category ->
+                    val realSubcategory = mutableListOf<Subcategory>()
+                    SupabaseFoodClient.INSTANCE.getAllCategoryToSubcategory(category.id).map { item ->
+                        val subcategory = SupabaseFoodClient.INSTANCE.getSubcategory(item.subcategory)
+                        val food =
+                            allFood.filter { it.category == category.id && (it.subcategory == subcategory.id || it.subcategory == null) }
+                        realSubcategory.add(Subcategory(subcategory.subcategory, subcategory.route, food))
+                    }
+                    realCategory.add(Category(category.category, category.route, realSubcategory))
                 }
-                call.sessions.set(EatsCount(countEatList))
+
+                val listNumEat = mutableListOf<Int>()
+                if (call.sessions.get<EatsCount>() == null) {
+                    realCategory.forEach { category->
+                        category.subcategory.forEach { subcategory ->
+                            subcategory.eat.forEach { food ->
+                                listFoodSort.add(food)
+                                listNumEat.add(food.num)
+                            }
+                        }
+                    }
+                    call.sessions.set(EatsCount(listNumEat))
+                }
+
+                val countList = call.sessions.get<EatsCount>()?.num
+                val params = mapOf("categories" to realCategory, "count" to count, "countsEat" to countList)
+                call.respond(FreeMarkerContent("homepageTest.ftl", params, "e"))
             }
-
-            val countList = call.sessions.get<EatsCount>()?.num
-            val params = mapOf("categories" to eats, "count" to count, "countsEat" to countList)
-
-            call.respond(FreeMarkerContent("homepageTest.ftl", params, "e"))
+            catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
         get("profile") {
             val session = call.sessions.get<MySession>()
             val count = session?.countEat ?: 0
-            val params = mapOf("categories" to eats, "count" to count)
+            val params = mapOf("count" to count)
             call.respond(FreeMarkerContent("profile_page.ftl", params, "e"))
         }
 
         get("basket") {
-            val session = call.sessions.get<Eats>()
-            val listIndexEats = session?.index ?: mutableListOf<Int>()
-            val listCountEats = session?.count ?: mutableListOf<Int>()
-            val basketList = mutableListOf<Eat>()
-            for (i in listIndexEats.indices) {
-                basketList.add(onlyFood[listIndexEats[i]])
-                basketList[basketList.lastIndex].price = basketList[basketList.lastIndex].price * listCountEats[i]
+            val countEats = call.sessions.get<MySession>()?: 0
+            val indexEats = call.sessions.get<Eats>()
+            val listEats = mutableListOf<Food>()
+            indexEats?.index?.forEach { index->
+                listEats.add(listFoodSort[index])
             }
-            val sessionCountEat = call.sessions.get<MySession>()
-            val count = sessionCountEat?.countEat ?: 0
-            val countEat = mutableListOf<Int>()
-            val countList = call.sessions.get<EatsCount>()?.num
-            countList?.forEach { item ->
-                if (item != 0)
-                    countEat.add(item)
-            }
-            val params = mapOf("eats" to basketList, "count" to count, "countsEat" to countEat)
+
+            val params = mapOf("eats" to listEats, "count" to countEats)
             call.respond(FreeMarkerContent("basket_page.ftl", params, "e"))
         }
 
@@ -109,25 +95,9 @@ fun Route.getHomepage() {
             val countEat = param["countEat"] ?: return@post call.respond(HttpStatusCode.BadRequest)
 
             val session = call.sessions.get<Eats>()
-            val listIndexEats = session?.index ?: mutableListOf<Int>()
-            val listCountEats = session?.count ?: mutableListOf<Int>()
-            var basketList = mutableListOf<Eat>()
-            for (i in listIndexEats.indices) {
-                basketList.add(onlyFood[listIndexEats[i]])
-                basketList[basketList.lastIndex].price =
-                    basketList[basketList.lastIndex].price * listCountEats[i]
-            }
 
-            val sessionCountEat = call.sessions.get<MySession>()
-            val count = sessionCountEat?.countEat ?: 0
-            val countEats = mutableListOf<Int>()
-            val countList = call.sessions.get<EatsCount>()?.num
-            countList?.forEach { item ->
-                if (item != 0)
-                    countEats.add(item)
-            }
-            val params = mapOf("eats" to basketList, "count" to count, "countsEat" to countEats)
-            call.respond(FreeMarkerContent("basket.ftl", params, "e"))
+//            val params = mapOf("eats" to basketList, "count" to count, "countsEat" to countEats)
+//            call.respond(FreeMarkerContent("basket.ftl", params, "e"))
         }
 
         post("profile-ajax") {
@@ -140,7 +110,7 @@ fun Route.getHomepage() {
         get("global") {
             val sessionCountEat = call.sessions.get<MySession>()
             val count = sessionCountEat?.countEat ?: 0
-            val params = mapOf("categories" to eats, "count" to count)
+            val params = mapOf("count" to count)
             call.respond(FreeMarkerContent("global.ftl", params, ""))
         }
 
@@ -148,64 +118,28 @@ fun Route.getHomepage() {
 
     route("/handler") {
         post("/add-count-food") {
-            println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHello")
             val param = call.receiveParameters()
             val countEat = param["countEat"] ?: return@post call.respond(HttpStatusCode.BadRequest)
-            val listEats = param["listEat"] ?: return@post call.respond(HttpStatusCode.BadRequest)
             val index = param["Index"] ?: return@post call.respond(HttpStatusCode.BadRequest)
-            call.sessions.set(MySession(countEat.toInt()))
 
-            val jsonObject = JSONObject(listEats)
-            val foodCheck = call.sessions.get<Eats>()
-            val listIndexEat = foodCheck?.index ?: mutableListOf<Int>()
-            val listCountEat = foodCheck?.count ?: mutableListOf<Int>()
+            val sessionEatsIndex = call.sessions.get<Eats>()
+            var listEatsIndex = mutableListOf<Int>()
+            if (sessionEatsIndex != null)
+                listEatsIndex = sessionEatsIndex.index
 
-            val keys = jsonObject.keys()
-            while (keys.hasNext()) {
-                val key = keys.next()
-                val value = jsonObject.get(key)
-                if (listIndexEat.indexOf(key.toInt()) != -1)
-                    listCountEat[listIndexEat.indexOf(key.toInt())] += 1
-                else {
-                    listIndexEat.add(key.toInt())
-                    listCountEat.add(value as Int)
-                }
-            }
+            val find = sessionEatsIndex?.index?.find { item-> item == index.toInt() }
+            if (find == null)
+                listEatsIndex.add(index.toInt())
+            call.sessions.set(Eats(listEatsIndex))
 
-            val countList = call.sessions.get<EatsCount>()?.num ?: mutableListOf()
-            if (countList.isNotEmpty()) {
-                countList[index.toInt()] += 1
-                call.sessions.set(EatsCount(countList))
-            }
-            call.sessions.set(Eats(listIndexEat, listCountEat))
+            val listNumEatSession = call.sessions.get<EatsCount>()
+            listNumEatSession?.num?.set(index.toInt(), listNumEatSession.num[index.toInt()] + 1)
+            call.sessions.set(EatsCount(listNumEatSession?.num ?: mutableListOf()))
+
             call.sessions.set(MySession(countEat.toInt()))
         }
 
         post("/remove-count-food") {
-            val param = call.receiveParameters()
-            println("\n\n\n\n\n\n\n\n\n\n\n\n\nHello")
-            val countEat = param["countEat"] ?: return@post call.respond(HttpStatusCode.BadRequest)
-            val indexEat = param["Index"] ?: return@post call.respond(HttpStatusCode.BadRequest)
-
-            val session = call.sessions.get<Eats>()
-            val listIndexEats = session?.index ?: mutableListOf<Int>()
-            val listCountEats = session?.count ?: mutableListOf<Int>()
-
-            println("$listIndexEats\n\n\n\n\n\n\n\n\n\n\n\n\nHello")
-
-            call.sessions.set(MySession(countEat.toInt()))
-            val countEats = call.sessions.get<EatsCount>()
-            if (countEats != null) {
-                countEats.num[indexEat.toInt()] -= 1
-                if(countEats.num[indexEat.toInt()] == 0) {
-                    listIndexEats.remove(indexEat.toInt())
-                    listCountEats.remove(indexEat.toInt())
-                }
-            }
-
-            println("$listIndexEats\n\n\n\n\n\n\n\n\n\n\n\n\n")
-            call.sessions.set(Eats(listIndexEats, listCountEats))
-            call.sessions.set(countEats)
 
         }
     }

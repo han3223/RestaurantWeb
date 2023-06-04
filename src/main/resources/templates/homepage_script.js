@@ -334,8 +334,6 @@ $(document).on('click', '.sign_minus', function () {
 $(document).on('click', '.sign_plus', function () {
 
     var eatIndex = $('.sign_plus').index(this).toString();
-    if (listEat[eatIndex]) listEat[eatIndex] += 1; else $.extend(listEat, {[eatIndex]: 1});
-    console.log(listEat);
     product += 1;
     var x = parseInt($('.number')[$('.sign_plus').index(this)].innerText);
     $('.number')[$('.sign_plus').index(this)].innerText = x + 1;
@@ -354,7 +352,6 @@ $(document).on('click', '.sign_plus', function () {
 
     $.post('/handler/add-count-food', {
         countEat: product,
-        listEat: JSON.stringify(listEat),
         Index: indexEat
     }, function (data) {
     });

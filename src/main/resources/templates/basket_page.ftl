@@ -75,11 +75,11 @@
                                                         <img src="/static/minus.png" alt="" class="sign_minus">
                                                     </div>
                                                     <div class="count" style="border-radius: 35px">
-                                                        <#list countsEat as num>
-                                                            <#if num?index == eat?index>
-                                                                <p class="number">${num}</p>
-                                                            </#if>
-                                                        </#list>
+<#--                                                        <#list countsEat as num>-->
+<#--                                                            <#if num?index == eat?index>-->
+<#--                                                                <p class="number">${num}</p>-->
+<#--                                                            </#if>-->
+<#--                                                        </#list>-->
                                                     </div>
                                                     <div class="plus" style="border-radius: 35px">
                                                         <img src="/static/plus.png" alt="" class="sign_plus">
