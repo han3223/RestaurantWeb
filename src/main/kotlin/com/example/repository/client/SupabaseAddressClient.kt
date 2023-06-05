@@ -1,10 +1,8 @@
-package com.example.bonappetitandroid.repository.client
+package com.example.repository.client
 
-import com.example.bonappetitandroid.dto.Address
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.plugins.standaloneSupabaseModule
 import io.github.jan.supabase.postgrest.Postgrest
-import io.github.jan.supabase.postgrest.postgrest
 
 class SupabaseAddressClient {
     private val supabaseUrl = "https://qyqqzftymegxiemintrs.supabase.co/"

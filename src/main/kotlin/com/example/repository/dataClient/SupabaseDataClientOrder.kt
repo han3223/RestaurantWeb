@@ -1,6 +1,6 @@
-package com.example.bonappetitandroid.repository.dataClient
+package com.example.repository.dataClient
 
-import com.example.bonappetitandroid.dto.Order
+import com.example.dto.Order
 
 interface SupabaseDataClientOrder {
     suspend fun getOrderData(): List<Order>
