@@ -33,10 +33,10 @@ document.addEventListener("DOMContentLoaded", function () {
 $(function () {
     if (window.innerWidth > 1151) {
         var header = $(".profile_bar");
-        $(window).scroll(function () {
+        $(window).on('scroll', function () {
             var scroll = $(window).scrollTop();
-
-            if (window.location.href === "http://127.0.0.1:8080/bonappetit") {
+            // "http://127.0.0.1:8080/bonappetit"
+            if (window.location.href === "http://localhost:8080/bonappetit") {
                 if (scroll >= 103) {
                     header.removeClass('profile_bar')
                         .addClass("profile_bar_scroll");
@@ -101,9 +101,8 @@ $(document).on('click', '.profile', function () {
             $.ajax({
                 url: "/bonappetit/profile-ajax", method: "POST", success: function (data) {
                     $.getScript("homepage_script.js", function () {
-                        // скрипт выполнится после загрузки
-                    });
 
+                    });
                     $('#content-test').html(data);
 
                     window.history.pushState(null, null, '/bonappetit/profile');
@@ -182,7 +181,7 @@ $(document).on('input', '#firstname', function () {
     }
 });
 // Валидация телефона
-$(document).on('input', '#phone', function() {
+$(document).on('input', '#phone', function () {
     $(this).mask('+7 (999) 999-99-99');
 });
 $(document).on('input', '#phone', function () {
@@ -285,6 +284,12 @@ $(document).on('input', '#pass-confirm', function () {
         $(this).tooltipster('hide');
     }
 });
+
+
+$(window).on("load", function () {
+    $('.container_login').animate({scrollLeft: $('.container_login').width()}, 1);
+});
+
 $(document).on('click', '#reg', function () {
     $('.container_login').animate({scrollLeft: ($('.container_login').width() * 2)}, 500);
 });
@@ -303,6 +308,7 @@ var listEat = {};
 
 $(document).on('click', '.sign_minus', function () {
     // Ваш код обработки нажатия на кнопку здесь
+    var eatId = $(this).parents('.check_food').attr('id');
     var x = parseInt($('.number')[$('.sign_minus').index(this)].innerText);
     if (x <= 0) {
 
@@ -323,21 +329,20 @@ $(document).on('click', '.sign_minus', function () {
             }
         }
     }
-    // TODO: дописать удаление из корзины
-    var eatIndex = $('.sign_minus').index(this).toString();
-    $.post('/handler/remove-count-food', {countEat: product, Index: eatIndex}, function (data) {
+
+    $.post('/handler/remove-count-food', {
+        countEat: product,
+        Index: eatId
+    }, function (data) {
     });
-    // if ($('.number')[$('.sign_minus').index(this)].innerText == 0)
-    //     $('.removable')[$('.sign_minus').index(this)].remove();
 });
 
 $(document).on('click', '.sign_plus', function () {
 
-    var eatIndex = $('.sign_plus').index(this).toString();
+    var eatId = $(this).parents('.check_food').attr('id');
     product += 1;
     var x = parseInt($('.number')[$('.sign_plus').index(this)].innerText);
     $('.number')[$('.sign_plus').index(this)].innerText = x + 1;
-    var indexEat = $('.sign_plus').index(this)
     if (product >= 100) {
         $('#num_profile_bar')[0].innerText = ".."
         $('#num')[0].innerText = "..";
@@ -352,7 +357,7 @@ $(document).on('click', '.sign_plus', function () {
 
     $.post('/handler/add-count-food', {
         countEat: product,
-        Index: indexEat
+        Index: eatId
     }, function (data) {
     });
 

@@ -17,8 +17,10 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src="https://unpkg.com/tooltipster@4.2.8/dist/js/tooltipster.bundle.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/tooltipster@4.2.8/dist/css/tooltipster.bundle.min.css" />
-    <link rel="stylesheet" href="https://unpkg.com/tooltipster@4.2.8/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css"
+          href="https://unpkg.com/tooltipster@4.2.8/dist/css/tooltipster.bundle.min.css"/>
+    <link rel="stylesheet"
+          href="https://unpkg.com/tooltipster@4.2.8/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css"/>
 </head>
 
 <body style="background-image: url(/static/drawable/background.png);">
@@ -145,7 +147,8 @@
                             <li class="profile_bar">
                                 <div id="porfile_basket_menu">
                                     <img src="/static/headshot.png" alt="" id="profile"
-                                         style="height: 30px; width: 30px; float: left; margin-left: 5px;"  class="profile">
+                                         style="height: 30px; width: 30px; float: left; margin-left: 5px;"
+                                         class="profile">
                                     <img src="/static/basket.png" alt="" id="basket"
                                          style="height: 40px; width: 40px;" class="basket">
                                     <div id="basket_count_profile_bar">
@@ -182,7 +185,7 @@
                                 <div class="back"></div>
                                 <div class="carousel-inner d-flex" id="carousel_eat">
                                     <#list subcategory.eat as eat>
-                                        <div id="container_eat" class="container_eat">
+                                        <div class="container_eat check_food" id="${eat.id}">
                                             <div>
                                                 <img src="${eat.icon}" alt="..." class="eat img-fluid">
                                             </div>
@@ -202,11 +205,7 @@
                                                             <img src="/static/minus.png" alt="" class="sign_minus">
                                                         </div>
                                                         <div class="count">
-                                                            <#list countsEat as num>
-                                                                <#if num?index == index>
-                                                                    <p class="number">${num}</p>
-                                                                </#if>
-                                                            </#list>
+                                                            <p class="number">${eat.num}</p>
                                                         </div>
                                                         <div class="plus">
                                                             <img src="/static/plus.png" alt="" class="sign_plus">
