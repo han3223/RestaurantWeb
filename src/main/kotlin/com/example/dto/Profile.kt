@@ -13,13 +13,3 @@ data class Profile(
     val role: String,
     val address: Int?
 )
-
-@Serializable
-data class ProfileRegistration(
-    val FIO: String,
-    val telephoneNumber: String,
-    val email: String,
-    val password: String,
-    val role: String,
-    val address: Int?
-)

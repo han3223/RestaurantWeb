@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="box_basket" id="">
             <div class="row ">
-                <div class="select col-md-4 col-sm-8 " style="margin: 0 auto;">
+                <div class="select col-md-4 col-sm-8" style="margin: 0 auto;">
                     <button id="hall" class="w-50">В зале</button>
                     <button id="delivery" class="w-50 float-end">Доставка</button>
                     <button class="w-100">Адрес</button>
@@ -10,7 +10,7 @@
                 <div class="food">
                     <#if eats??>
                         <#list eats as eat>
-                            <div class="col-md-4 col-sm-8 check_food" id="${eat.id}" style="margin: 50px auto;">
+                            <div class="col-md-4 col-sm-8" style="margin: 50px auto;">
                                 <div class="description col" id="description"
                                      style="border-radius: 25px; position: relative">
                                     <img class="eat img-fluid w-50" src="../${eat.icon}" alt=""
@@ -26,7 +26,11 @@
                                                     <img src="/static/minus.png" alt="" class="sign_minus">
                                                 </div>
                                                 <div class="count" style="border-radius: 35px">
-                                                            <p class="number">${eat.num}</p>
+                                                    <#list countsEat as num>
+                                                        <#if num?index == eat?index>
+                                                            <p class="number">${num}</p>
+                                                        </#if>
+                                                    </#list>
                                                 </div>
                                                 <div class="plus" style="border-radius: 35px">
                                                     <img src="/static/plus.png" alt="" class="sign_plus">

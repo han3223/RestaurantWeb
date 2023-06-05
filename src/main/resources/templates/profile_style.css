@@ -34,7 +34,7 @@
 
 .container_long_input_log>input,
 .form_name>div>input {
-    width: 100%;
+    width: 97%;
     margin: 3px auto;
     border: 0;
     padding: 4px;
@@ -175,7 +175,7 @@ input:active {
     text-decoration: underline;
     cursor: pointer;
     font-size: 90%;
-    color: #dadada;
+    color: #292B31;
 }
 
 a {

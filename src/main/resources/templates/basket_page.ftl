@@ -17,10 +17,8 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src="https://unpkg.com/tooltipster@4.2.8/dist/js/tooltipster.bundle.min.js"></script>
-    <link rel="stylesheet" type="text/css"
-          href="https://unpkg.com/tooltipster@4.2.8/dist/css/tooltipster.bundle.min.css"/>
-    <link rel="stylesheet"
-          href="https://unpkg.com/tooltipster@4.2.8/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/tooltipster@4.2.8/dist/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tooltipster@4.2.8/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css" />
 </head>
 
 <body style="background-image: url(/static/drawable/background.png);">
@@ -61,7 +59,7 @@
                     <div class="food">
                         <#if eats??>
                             <#list eats as eat>
-                                <div class="col-md-4 col-sm-8 removable check_food" id="${eat.id}" style="margin: 50px auto;">
+                                <div class="col-md-4 col-sm-8 removable" style="margin: 50px auto;">
                                     <div class="description col" id="description"
                                          style="border-radius: 25px; position: relative">
                                         <img class="eat img-fluid w-50" src="../${eat.icon}" alt=""
@@ -77,7 +75,11 @@
                                                         <img src="/static/minus.png" alt="" class="sign_minus">
                                                     </div>
                                                     <div class="count" style="border-radius: 35px">
-                                                        <p class="number">${eat.num}</p>
+<#--                                                        <#list countsEat as num>-->
+<#--                                                            <#if num?index == eat?index>-->
+<#--                                                                <p class="number">${num}</p>-->
+<#--                                                            </#if>-->
+<#--                                                        </#list>-->
                                                     </div>
                                                     <div class="plus" style="border-radius: 35px">
                                                         <img src="/static/plus.png" alt="" class="sign_plus">
