@@ -135,8 +135,9 @@ img {
 
 .eat {
     border-radius: 27px;
-    width: 250px;
-    height: 100%;
+    width: 250px !important;
+    /*height: 100%;*/
+    aspect-ratio: 1/1;
 }
 
 
@@ -194,27 +195,55 @@ img {
 }
 
 .description {
-    height: 70%;
+    /*height: 70%;*/
     background-color: #1f2025aa;
     border-radius: 25px 25px 0 0;
     padding: 15px;
 }
 
 #carouselExample {
-    width: 1045px;
+    width: 1225px;
     margin: 0 auto;
-    position: relative;
+    display: flex;
+
+}
+
+#hall {
+    background-color: #5d607e;
+    border: none;
+    height: 40px;
+    border-radius: 10px 0 0 10px;
+}
+
+#delivery {
+    background-color: #a3a4ae;
+    border: none;
+    height: 40px;
+    border-radius: 0 10px 10px 0;
+}
+
+.select > .w-100 {
+    background-color: white;
+    border: none;
+    height: 40px;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+.submit {
+    background-color: #5d607e;
+    height: 30px;
+    border-radius: 10px;
 }
 
 .next, .back {
     width: 90px;
-    height: 92%;
+    height: 180px;
     background-color: #1f2025;
-    position: absolute;
     z-index: 100;
-    top: 8%;
-    opacity: 0.2;
+    opacity: 0.6;
     cursor: pointer;
+    margin: auto 0;
 }
 
 .next {
@@ -322,6 +351,12 @@ body::-webkit-scrollbar-thumb {
     aspect-ratio: 1/1;
     margin-top: 6px;
     cursor: pointer;
+}
+
+.food {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
 footer {

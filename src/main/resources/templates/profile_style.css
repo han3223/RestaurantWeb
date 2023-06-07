@@ -2,6 +2,10 @@
     margin: 0;
 }
 
+td {
+    color: white;
+}
+
 .container {
     height: 100vh;
     display: flex;
@@ -30,6 +34,13 @@
     box-shadow: 0 0 5px 1px #838383;
     flex: 0 0 auto;
     position: relative;
+}
+
+#profile_info > input {
+    border: none;
+    width: 80%;
+    background-color: transparent;
+    color: white;
 }
 
 .container_long_input_log>input,
@@ -105,7 +116,7 @@ input:required:invalid {
 }
 
 .form_name>div>input {
-    width: 92% !important;
+    width: 98% !important;
 }
 
 .form_reg>h4 {

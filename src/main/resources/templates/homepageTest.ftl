@@ -23,7 +23,7 @@
           href="https://unpkg.com/tooltipster@4.2.8/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css"/>
 </head>
 
-<body style="background-image: url(/static/drawable/background.png);">
+<body style="background-image: url(/static/drawable/background.png); display: flex; flex-direction: column">
 <header class="w-100 head">
     <img src="/static/header.jpg" alt="" style="z-index: -1000;" id="test">
     <div class="container-fluid" id="header">
@@ -41,9 +41,6 @@
                         <h6 id="num">${count}</h6>
                     </div>
                 </div>
-            </div>
-            <div id="menu-smartphone">
-                <img src="/static/menu-smartphone.png" alt="">
             </div>
         </div>
 
@@ -193,7 +190,7 @@
                                                 <h6 style="color: white">${eat.price}₽</h6>
                                             </div>
                                             <div class="amount_container">
-                                                <div class="description" id="description" style="overflow-y: scroll">
+                                                <div class="description" id="description" style="height: 70%; overflow-y: scroll">
                                                     <h4 style="color: white; text-decoration: underline">${eat.title}</h4>
                                                     <h6 style="color: white">${eat.description}</h6>
                                                     <h6 style="color: white; font-size: 0.8rem">${eat.calories}

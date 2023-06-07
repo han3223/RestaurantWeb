@@ -59,6 +59,13 @@ class SupabaseFoodClient {
         return result
     }
 
+    suspend fun getFoodById(id: Int): Food {
+        val result = client.postgrest["food"].select {
+            eq("id", id)
+        }.decodeSingle<Food>()
+
+        return result
+    }
 
     suspend fun setFood(food: Food) {
         client.postgrest["food"].insert(food)

@@ -3,8 +3,10 @@ package com.example.front
 import com.example.EatsCount
 import com.example.FoodCount
 import com.example.MySession
+import com.example.bonappetitandroid.dto.OrderSet
 import com.example.bonappetitandroid.dto.Profile
 import com.example.bonappetitandroid.dto.ProfileRegistration
+import com.example.bonappetitandroid.repository.client.SupabaseOrderClient
 import com.example.bonappetitandroid.repository.client.SupabaseProfileClient
 import com.example.dto.Category
 import com.example.dto.Food
@@ -17,6 +19,9 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -29,14 +34,22 @@ fun Route.getHomepage() {
 
     route("/profile") {
         get("/{name}") {
-            val session = call.sessions.get<MySession>()
-            val count = session?.countEat ?: 0
-            val auth = true
-            val profile = call.sessions.get<ProfileRegistration>()
-            println(profile)
+            try {
+                val session = call.sessions.get<MySession>()
+                val count = session?.countEat ?: 0
+                val auth = true
+                val profile = call.sessions.get<ProfileRegistration>()
+                call.sessions.set(profile)
 
-            val params = mapOf("count" to count, "auth" to auth, "profile" to profile)
-            call.respond(FreeMarkerContent("profile_page.ftl", params, "e"))
+                val fullProfile = SupabaseProfileClient.INSTANCE.getProfile(profile!!.telephoneNumber, profile.password)
+                val orders = SupabaseOrderClient.INSTANCE.getOrderByProfile(fullProfile!!.id)
+
+                val params = mapOf("count" to count, "auth" to auth, "profile" to profile, "orders" to orders)
+                call.respond(FreeMarkerContent("profile_page.ftl", params, "e"))
+            }
+            catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
         post("/registration") {
@@ -54,7 +67,7 @@ fun Route.getHomepage() {
                 profileEmail,
                 profilePassword,
                 "user",
-                null
+                ""
             )
             println("Start registration")
             SupabaseProfileClient.INSTANCE.setProfile(profile)
@@ -64,24 +77,30 @@ fun Route.getHomepage() {
         }
 
         post("/login") {
-            val param = call.receiveParameters()
-            val profilePhoneNumber = param["tel"] ?: return@post call.respond(HttpStatusCode.BadRequest)
-            val profilePassword = param["password"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+            try {
+                val param = call.receiveParameters()
+                val profilePhoneNumber = param["tel"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+                val profilePassword = param["password"] ?: return@post call.respond(HttpStatusCode.BadRequest)
 
-            val profile = SupabaseProfileClient.INSTANCE.getProfile(profilePhoneNumber, profilePassword)
+                val profile = SupabaseProfileClient.INSTANCE.getProfile(profilePhoneNumber, profilePassword)
+                if (profile != null) {
+                    val profileRegistration = ProfileRegistration(
+                        profile.FIO,
+                        profile.telephoneNumber,
+                        profile.email,
+                        profile.password,
+                        profile.role,
+                        profile.address
+                    )
 
-            if (profile != null) {
-                val profileRegistration = ProfileRegistration(
-                    profile.FIO,
-                    profile.telephoneNumber,
-                    profile.email,
-                    profile.password,
-                    profile.role,
-                    profile.address
-                )
-                call.sessions.set(profileRegistration)
-                call.respondRedirect("/profile/${profile.FIO}")
+                    call.sessions.set(profileRegistration)
+                    call.respondRedirect("/profile/${profile.FIO}")
+                }
             }
+            catch (e: Exception) {
+                e.printStackTrace()
+            }
+
         }
 
         route("/forgot") {
@@ -95,7 +114,7 @@ fun Route.getHomepage() {
         }
     }
 
-    route("bonappetit") {
+    route("/bonappetit") {
         get {
             try {
                 val session = call.sessions.get<MySession>()
@@ -153,7 +172,7 @@ fun Route.getHomepage() {
             }
         }
 
-        get("profile") {
+        get("/profile") {
             val session = call.sessions.get<MySession>()
             val count = session?.countEat ?: 0
             val profile = call.sessions.get<ProfileRegistration>()
@@ -164,24 +183,30 @@ fun Route.getHomepage() {
                 call.respondRedirect("/profile/${profile.FIO}")
         }
 
-        get("basket") {
-            val count = call.sessions.get<MySession>() ?: MySession(0)
-            val indexEats = call.sessions.get<FoodCount>() ?: FoodCount(mutableListOf(), mutableListOf())
+        get("/basket") {
+            try {
+                val count = call.sessions.get<MySession>() ?: MySession(0)
+                val indexEats = call.sessions.get<FoodCount>() ?: FoodCount(mutableListOf(), mutableListOf())
 
-            val listEats = mutableListOf<Food>()
+                val listEats = mutableListOf<Food>()
 
-            indexEats.index.forEachIndexed { index, item ->
-                val idFoodSort = listFoodSort.first { foodSort -> foodSort.id == item }
-                idFoodSort.num = indexEats.num[index]
-                println(indexEats.num[index])
-                listEats.add(idFoodSort)
+                indexEats.index.forEachIndexed { index, item ->
+                    val idFoodSort = listFoodSort.first { foodSort -> foodSort.id == item }
+                    idFoodSort.num = indexEats.num[index]
+                    println(indexEats.num[index])
+                    listEats.add(idFoodSort)
+                }
+
+                val params = mapOf("eats" to listEats, "count" to count.countEat)
+                call.respond(FreeMarkerContent("basket_page.ftl", params, "e"))
+            }
+            catch (e: Exception) {
+                e.printStackTrace()
             }
 
-            val params = mapOf("eats" to listEats, "count" to count.countEat)
-            call.respond(FreeMarkerContent("basket_page.ftl", params, "e"))
         }
 
-        post("basket-ajax") {
+        post("/basket-ajax") {
             val count = call.sessions.get<MySession>() ?: MySession(0)
             val indexEats = call.sessions.get<FoodCount>() ?: FoodCount(mutableListOf(), mutableListOf())
 
@@ -198,7 +223,7 @@ fun Route.getHomepage() {
             call.respond(FreeMarkerContent("basket.ftl", params, "e"))
         }
 
-        post("profile-ajax") {
+        post("/profile-ajax") {
             val session = call.sessions.get<MySession>()
             val count = session?.countEat ?: 0
             val profile = call.sessions.get<ProfileRegistration>()
@@ -209,7 +234,7 @@ fun Route.getHomepage() {
                 call.respondRedirect("/profile/${profile.FIO}")
         }
 
-        get("global") {
+        get("/global") {
             val sessionCountEat = call.sessions.get<MySession>()
             val count = sessionCountEat?.countEat ?: 0
             val params = mapOf("count" to count)
@@ -243,7 +268,6 @@ fun Route.getHomepage() {
             call.sessions.set(sessionEatsIndex)
             call.sessions.set(MySession(countEat.toInt()))
         }
-
         post("/remove-count-food") {
             val param = call.receiveParameters()
             val countEat = param["countEat"] ?: return@post call.respond(HttpStatusCode.BadRequest)
@@ -268,17 +292,41 @@ fun Route.getHomepage() {
             call.sessions.set(sessionEatsIndex)
             call.sessions.set(MySession(countEat.toInt()))
         }
+        post("/add-order") {
+
+            val indexEats = call.sessions.get<FoodCount>() ?: FoodCount(mutableListOf(), mutableListOf())
+            val profile = call.sessions.get<ProfileRegistration>()
+            val listOrder = mutableListOf<Food>()
+            var price = 0
+            indexEats.index.forEachIndexed { index, item->
+                val food = SupabaseFoodClient.INSTANCE.getFoodById(item)
+                listOrder.add(food)
+                listOrder[listOrder.lastIndex].num += indexEats.num[index]
+                price += (food.price * indexEats.num[index])
+            }
+            val json = Json.encodeToString(listOrder)
+            var idProfile: Int? = null
+            if (profile != null)
+                idProfile = SupabaseProfileClient.INSTANCE.getProfile(profile.telephoneNumber, profile.password)?.id
+
+
+            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+            val currentDate = sdf.format(Date())
+            val order = OrderSet("В зале", json, idProfile, price, currentDate)
+
+            SupabaseOrderClient.INSTANCE.setOrder(order)
+
+            call.sessions.clear<MySession>()
+            call.sessions.clear<FoodCount>()
+        }
+        get("/exit") {
+            call.sessions.clear<ProfileRegistration>()
+        }
     }
 }
 
 fun Application.HomepageRouting() {
     routing { getHomepage() }
 }
-
-
-fun test() {
-    val base64Encoder = Base64.getEncoder()
-}
-
 
 

@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
     if (window.innerWidth > 1151) {
-
         document.querySelectorAll('.navbar .nav-item').forEach(function (everyitem) {
 
             everyitem.addEventListener('mouseover', function (e) {
@@ -28,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
     }
+
 });
 
 $(function () {
@@ -58,7 +58,14 @@ $('.container_eat').hover(function () {
     $('.price')[$('.container_eat').index(this)].style.opacity = 1;
 });
 
-
+$(document).on('click', '#hall', function () {
+    $('#delivery').css('background', '#a3a4ae')
+    $(this).css('background', '#5d607e')
+});
+$(document).on('click', '#delivery', function () {
+    $('#hall').css('background', '#a3a4ae')
+    $(this).css('background', '#5d607e')
+});
 $(document).on('click', '.back', function () {
     $('.carousel-inner').eq($('.back').index(this)).animate({scrollLeft: '-=280'});
 });
@@ -83,7 +90,7 @@ $(document).on('click', '.basket', function () {
     });
     $('#content-test').animate({height: 0}, {
         duration: 650, complete: function () {
-            $('#content-test').animate({opacity: 1, height: '100vh', marginTop: '140px'}, {
+            $('#content-test').animate({opacity: 1, marginTop: '140px'}, {
                 duration: 450, complete: function () {
                 }
             });
@@ -96,33 +103,35 @@ $(document).on('click', '.basket', function () {
     $('#test').animate({height: 150}, 500);
 });
 $(document).on('click', '.profile', function () {
-    $('#content-test').animate({opacity: 0}, {
-        duration: 450, complete: function () {
-            $.ajax({
-                url: "/bonappetit/profile-ajax", method: "POST", success: function (data) {
-                    $.getScript("homepage_script.js", function () {
-
-                    });
-                    $('#content-test').html(data);
-
-                    window.history.pushState(null, null, '/bonappetit/profile');
-                }
-            });
-        }
-    });
-    $('#content-test').animate({height: 0}, {
-        duration: 650, complete: function () {
-            $('#content-test').animate({opacity: 1, height: '100vh', marginTop: '0px'}, {
-                duration: 450, complete: function () {
-                }
-            });
-        }
-    });
-    $('.head').animate({top: 0});
-    $('.parent').removeClass('parent').empty();
-    // $('.parent').eq(0).animate({height: 0}, 500);
-    // $('.nav-item').animate({opacity: 0}, 200);
-    $('#test').animate({height: 150}, 500);
+    window.location.replace("/bonappetit/profile")
+    // $('#content-test').animate({opacity: 0}, {
+    //     duration: 450, complete: function () {
+    //         $.ajax({
+    //             url: "/bonappetit/profile", method: "POST", success: function (data) {
+    //                 $.getScript("homepage_script.js", function () {
+    //
+    //                 });
+    //                 $('#content-test').html(data);
+    //
+    //                 window.history.pushState(null, null, '/bonappetit/profile');
+    //             }
+    //         });
+    //     }
+    // });
+    // $('#content-test').animate({height: 0}, {
+    //     duration: 650, complete: function () {
+    //         $('#content-test').animate({opacity: 1, marginTop: '0px'}, {
+    //             duration: 450, complete: function () {
+    //                 $('.tooltipster-base').css("display", "none");
+    //             }
+    //         });
+    //     }
+    // });
+    // $('.head').animate({top: 0});
+    // $('.parent').removeClass('parent').empty();
+    // // $('.parent').eq(0).animate({height: 0}, 500);
+    // // $('.nav-item').animate({opacity: 0}, 200);
+    // $('#test').animate({height: 150}, 500);
 });
 
 // ________________________________________Profile___________________________________________
@@ -130,10 +139,9 @@ function WarningMessage(obj, message, position) {
     $(obj).tooltipster({
         animation: 'fade',
         theme: 'tooltipster-shadow',
-        trigger: 'click',
         side: position,
         background: 'white',
-        trigger: 'custom',
+        trigger: 'click',
         functionBefore: function (instance, helper) {
             instance.content(message);
         }
@@ -362,6 +370,42 @@ $(document).on('click', '.sign_plus', function () {
     });
 
 });
+
+$(document).on('click', '.submit', function () {
+    $.post('/handler/add-order', {}, function (data) {});
+});
+
+$(document).on('click', '#forgot', function () {
+    $('#forgot_form').css("display", "flex");
+    $('#login_form').css("display", "none");
+    $('#registration_form').css("display", "none");
+    $('.tooltipster-base').css("display", "none");
+});
+$(document).on('click', '#reg', function () {
+    $('#forgot_form').css("display", "none");
+    $('#login_form').css("display", "none");
+    $('#registration_form').css("display", "flex");
+
+});
+$(document).on('click', '.prev', function () {
+    $('#forgot_form').css("display", "none");
+    $('#login_form').css("display", "flex");
+    $('#registration_form').css("display", "none");
+    $('.tooltipster-base').css("display", "none");
+});
+
+$('#email').focusin(function () {
+    $('.tooltipster-base').css("display", "flex");
+});
+// $(document).on('click', '.exit', function () {
+//     $.get('/handler/exit', function (data) {
+//
+//     });
+//     for(var i = 0; i < 1000; i++) {
+//         console.log("loop")
+//     }
+//     window.location.replace("http://localhost:8080/bonappetit")
+// });
 
 // function next() {
 //     var

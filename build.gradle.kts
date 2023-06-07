@@ -60,6 +60,7 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:gotrue-kt")
     implementation("io.github.jan-tennert.supabase:postgrest-kt:0.8.4")
     implementation("org.slf4j:slf4j-api:1.6.6")
+
 }
 
 //configurations {

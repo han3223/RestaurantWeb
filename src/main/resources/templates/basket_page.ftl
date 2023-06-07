@@ -41,14 +41,11 @@
                     </div>
                 </div>
             </div>
-            <div id="menu-smartphone">
-                <img src="/static/menu-smartphone.png" alt="">
-            </div>
         </div>
     </div>
 </header>
 
-<div id="content-test" style="height: 100vh; margin-top: 140px">
+<div id="content-test" style="margin-top: 140px">
     <section id="profile_section">
         <div class="container-fluid">
             <div class="box_basket" id="">
@@ -61,7 +58,7 @@
                     <div class="food">
                         <#if eats??>
                             <#list eats as eat>
-                                <div class="col-md-4 col-sm-8 removable check_food" id="${eat.id}" style="margin: 50px auto;">
+                                <div class="col-md-4 col-sm-8 removable check_food" id="${eat.id}" style="margin: 20px auto 0;">
                                     <div class="description col" id="description"
                                          style="border-radius: 25px; position: relative">
                                         <img class="eat img-fluid w-50" src="../${eat.icon}" alt=""
@@ -86,8 +83,12 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <#if eat?is_last>
+                                        <button class="submit" style="    width: 100px; margin: 30px 0; margin-left: calc(100% - 100px);">Заказать</button>
+                                    </#if>
                                 </div>
                             </#list>
+
                         <#else>
                             <img src="../static/drawable/order_empty.png" alt=""
                                  style="height: 300px; aspect-ratio: 1/1">
@@ -97,7 +98,6 @@
             </div>
         </div>
     </section>
-
 </div>
 
 <#--<footer class="w-100">-->

@@ -17,8 +17,10 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src="https://unpkg.com/tooltipster@4.2.8/dist/js/tooltipster.bundle.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/tooltipster@4.2.8/dist/css/tooltipster.bundle.min.css" />
-    <link rel="stylesheet" href="https://unpkg.com/tooltipster@4.2.8/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css"
+          href="https://unpkg.com/tooltipster@4.2.8/dist/css/tooltipster.bundle.min.css"/>
+    <link rel="stylesheet"
+          href="https://unpkg.com/tooltipster@4.2.8/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css"/>
 
 </head>
 
@@ -34,25 +36,21 @@
                 <img src="/static/headshot.png" alt="" id="profile" class="profile">
 
                 <div>
-                    <img src="/static/basket.png" alt="" id="basket" class="basket">
+                    <img src="/static/basket.png" alt="" id="basket" class="basket" onclick="window.location.replace('/bonappetit/basket');">
                     <div id="basket_count">
                         <h6 id="num">${count}</h6>
                     </div>
                 </div>
-            </div>
-            <div id="menu-smartphone">
-                <img src="/static/menu-smartphone.png" alt="">
             </div>
         </div>
     </div>
 </header>
 
 <#assign auth = auth>
-
-<div class="container">
-    <div class="container_login" id="auth">
-        <#if !auth>
-            <form action="" class="form_reg" id="forgot_form">
+<#if !auth>
+    <div class="container">
+        <div class="container_login" id="auth">
+            <form style="display: none" action="" class="form_reg" id="forgot_form">
                 <div class="prev">x</div>
                 <h3>Forgot Password</h3>
                 <div class="container_long_input_log">
@@ -61,7 +59,7 @@
                 </div>
                 <input type="submit" value="Прислать код">
             </form>
-            <form action="/profile/login" method="post" class="form_reg" id="login_form">
+            <form style="display: flex" action="/profile/login" method="post" class="form_reg" id="login_form">
                 <h3>LogIn</h3>
                 <div class="container_long_input_log">
                     <label for="tel_email">Тел/Email:</label>
@@ -75,7 +73,7 @@
                     <h4 id="reg">SignUp</h4>
                 </div>
             </form>
-            <form action="/profile/registration" method="post" class="form_reg" id="registration_form">
+            <form style="display: none" action="/profile/registration" method="post" class="form_reg" id="registration_form">
                 <div class="prev">x</div>
                 <h3>SignUp</h3>
                 <div class="form_name">
@@ -86,7 +84,8 @@
                     </div>
                     <div>
                         <label for="first_name">Имя*:</label>
-                        <input id="firstname" type="text" name="first_name" placeholder="Иван" pattern="[A-Za-zА-Яа-яЁё\s]+">
+                        <input id="firstname" type="text" name="first_name" placeholder="Иван"
+                               pattern="[A-Za-zА-Яа-яЁё\s]+">
                     </div>
 
                 </div>
@@ -112,27 +111,52 @@
                 </div>
                 <input id="sub" type="submit" value="Зарегистрироваться">
             </form>
-            <#else>
-            <div class="profile_box">
-                <form action="">
-                    <div class="global_info">
-                        <div>
-                            <h3>${profile.FIO}</h3>
-                        </div>
-                        <img src="../static/headshot.jpg" alt="">
-                    </div>
-                    <label for="tel">Телефон:</label>
-                    <input type="text" name="tel" value="${profile.telephoneNumber}">
-                    <label for="email">Email:</label>
-                    <input type="email" name="email" value="${profile.email}">
-<#--                    <label for="address">Адрес:</label>-->
-<#--                    <input type="text" name="address" value="${profile.address}">-->
-                </form>
-
-            </div>
-        </#if>
+        </div>
     </div>
-</div>
+<#else>
+    <div id="content-test" style="margin-top: 140px">
+        <section id="profile_section" class="col-md-4 col-sm-8"
+                 style="margin: auto;background-color: #1f2025cc; border-radius: 25px;">
+            <div class="container-fluid">
+                <div class="row" id="" style="position: relative">
+                    <h4 class="exit" style="cursor: pointer; position: absolute; right: 10px; top: 10px; width: 40px" >x</h4>
+                    <div class="w-100" style="margin: 20px auto; display: flex; flex-direction: row">
+                        <div class="" style="width: 35%; margin-right: 15px">
+                            <img src="../static/headshot.jpg" alt=""
+                                 style="float: left; width: 100%; aspect-ratio: 1/1; border-radius: 15px">
+                        </div>
+                        <div class="w-100" id="profile_info" style="margin: auto; display: flex; flex-direction: column;">
+                            <h4 style="float: left; width: 70%">${profile.FIO}</h4>
+                            <label for="tel">Телефон:</label>
+                            <input type="text" name="tel" value="${profile.telephoneNumber}" readonly>
+                            <label for="email">Email:</label>
+                            <input type="email" name="email" value="${profile.email}" readonly>
+                            <label for="address">Адрес:</label>
+                            <#if profile.address??>
+                                <input type="text" name="address" value="${profile.address}" readonly>
+                            <#else>
+                                <input type="text" name="address" value="" readonly>
+                            </#if>
+                        </div>
+                    </div>
+                    <table style="width: 100%">
+                        <tr style="border-bottom: 2px white solid">
+                            <td style="width: 50%">Время заказа</td><td style="width: 20%">Сумма</td><td style="width: 30%">Информация</td>
+                        </tr>
+                        <#if orders??>
+                            <#list orders as order>
+                                <tr>
+                                    <td>${order.date}</td><td>${order.price} Р</td><td>Посмотреть</td>
+                                </tr>
+                            </#list>
+                        </#if>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+</#if>
+
 
 <div class="tooltip_templates">
         <span id="tooltip_content">
@@ -159,6 +183,11 @@
 
 <script>
     <#include "homepage_script.js">
+    $(document).ready(function () {
+        function basket() {
+            window.location.replace("/bonappetit/basket");
+        }
+    });
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
