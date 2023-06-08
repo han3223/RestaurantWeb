@@ -3,8 +3,8 @@ package com.example.front
 import com.example.EatsCount
 import com.example.FoodCount
 import com.example.MySession
+import com.example.bonappetitandroid.dto.Order
 import com.example.bonappetitandroid.dto.OrderSet
-import com.example.bonappetitandroid.dto.Profile
 import com.example.bonappetitandroid.dto.ProfileRegistration
 import com.example.bonappetitandroid.repository.client.SupabaseOrderClient
 import com.example.bonappetitandroid.repository.client.SupabaseProfileClient
@@ -19,6 +19,8 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
+import kotlinx.css.address
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.text.SimpleDateFormat
@@ -42,9 +44,15 @@ fun Route.getHomepage() {
                 call.sessions.set(profile)
 
                 val fullProfile = SupabaseProfileClient.INSTANCE.getProfile(profile!!.telephoneNumber, profile.password)
-                val orders = SupabaseOrderClient.INSTANCE.getOrderByProfile(fullProfile!!.id)
+                val ordersJson = SupabaseOrderClient.INSTANCE.getOrderByProfile(fullProfile!!.id)
 
-                val params = mapOf("count" to count, "auth" to auth, "profile" to profile, "orders" to orders)
+                val ordersFood = mutableListOf<Order>()
+                ordersJson.forEach {
+                    val json = Json.decodeFromString<List<Food>>(it.listFood)
+                    ordersFood.add(Order(it.idOrder, it.orderCategory, json, it.user, it.price, it.date, it.address))
+                }
+
+                val params = mapOf("count" to count, "auth" to auth, "profile" to profile, "orders" to ordersFood)
                 call.respond(FreeMarkerContent("profile_page.ftl", params, "e"))
             }
             catch (e: Exception) {
@@ -293,6 +301,9 @@ fun Route.getHomepage() {
             call.sessions.set(MySession(countEat.toInt()))
         }
         post("/add-order") {
+            val param = call.receiveParameters()
+            val address = param["address"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+            val location = param["location"] ?: return@post call.respond(HttpStatusCode.BadRequest)
 
             val indexEats = call.sessions.get<FoodCount>() ?: FoodCount(mutableListOf(), mutableListOf())
             val profile = call.sessions.get<ProfileRegistration>()
@@ -312,13 +323,55 @@ fun Route.getHomepage() {
 
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
             val currentDate = sdf.format(Date())
-            val order = OrderSet("В зале", json, idProfile, price, currentDate)
+            val order = OrderSet(location, json, idProfile, price, currentDate, address)
 
             SupabaseOrderClient.INSTANCE.setOrder(order)
 
             call.sessions.clear<MySession>()
             call.sessions.clear<FoodCount>()
+
+            call.respondRedirect("/bonappetit")
         }
+        post("/update_number") {
+            val param = call.receiveParameters()
+            val number = param["value"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+            val numberOld = param["phone"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+            SupabaseProfileClient.INSTANCE.updatePhone(number, numberOld)
+
+            val profile = call.sessions.get<ProfileRegistration>()
+            if (profile != null)
+                call.sessions.set(ProfileRegistration(profile.FIO, number, profile.email, profile.password, profile.role, profile.address))
+
+            call.respondRedirect("/bonappetit/profile")
+        }
+
+        post("/update_email") {
+            val param = call.receiveParameters()
+            val email = param["value"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+            val number = param["phone"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+            SupabaseProfileClient.INSTANCE.updateEmail(email, number)
+
+
+            val profile = call.sessions.get<ProfileRegistration>()
+            if (profile != null)
+                call.sessions.set(ProfileRegistration(profile.FIO, profile.telephoneNumber, email, profile.password, profile.role, profile.address))
+
+            call.respondRedirect("/bonappetit/profile")
+        }
+
+        post("/update_address") {
+            val param = call.receiveParameters()
+            val address = param["value"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+            val number = param["phone"] ?: return@post call.respond(HttpStatusCode.BadRequest)
+            SupabaseProfileClient.INSTANCE.updateEmail(address, number)
+
+            val profile = call.sessions.get<ProfileRegistration>()
+            if (profile != null)
+                call.sessions.set(ProfileRegistration(profile.FIO, profile.telephoneNumber, profile.email, profile.password, profile.role, address))
+
+            call.respondRedirect("/bonappetit/profile")
+        }
+
         get("/exit") {
             call.sessions.clear<ProfileRegistration>()
         }

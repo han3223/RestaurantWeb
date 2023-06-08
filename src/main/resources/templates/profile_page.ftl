@@ -34,7 +34,6 @@
             </a>
             <div class="profile_basket" id="profile_basket">
                 <img src="/static/headshot.png" alt="" id="profile" class="profile">
-
                 <div>
                     <img src="/static/basket.png" alt="" id="basket" class="basket" onclick="window.location.replace('/bonappetit/basket');">
                     <div id="basket_count">
@@ -128,25 +127,63 @@
                         <div class="w-100" id="profile_info" style="margin: auto; display: flex; flex-direction: column;">
                             <h4 style="float: left; width: 70%">${profile.FIO}</h4>
                             <label for="tel">Телефон:</label>
-                            <input type="text" name="tel" value="${profile.telephoneNumber}" readonly>
+                            <div style="display: flex; flex-direction: row">
+                                <input type="text" id="tel" class="info" name="tel" value="${profile.telephoneNumber}" readonly>
+                                <img src="../static/galka001.png" id="${profile.telephoneNumber}" class="galka_set" style="display: none; cursor: pointer; float: right;width: 20px; aspect-ratio: 1/1" alt="">
+                                <img src="../static/pencil.png" class="pencil" style="cursor: pointer; float: right;width: 20px; aspect-ratio: 1/1" alt="">
+                            </div>
                             <label for="email">Email:</label>
-                            <input type="email" name="email" value="${profile.email}" readonly>
+                            <div style="display: flex; flex-direction: row">
+                                <input type="email" class="info" name="email" value="${profile.email}" readonly>
+                                <img src="../static/galka001.png" id="${profile.telephoneNumber}" class="galka_set" style="display: none; cursor: pointer; float: right;width: 20px; aspect-ratio: 1/1" alt="">
+                                <img src="../static/pencil.png" class="pencil" style="cursor: pointer; float: right;width: 20px; aspect-ratio: 1/1" alt="">
+                            </div>
                             <label for="address">Адрес:</label>
                             <#if profile.address??>
-                                <input type="text" name="address" value="${profile.address}" readonly>
+                                <div style="display: flex; flex-direction: row">
+                                    <input type="text" class="info" name="address" value="${profile.address}" readonly>
+                                    <img src="../static/galka001.png" id="${profile.telephoneNumber}" class="galka_set" style="display: none; cursor: pointer; float: right;width: 20px; aspect-ratio: 1/1" alt="">
+                                    <img src="../static/pencil.png" class="pencil" style="cursor: pointer; float: right;width: 20px; aspect-ratio: 1/1" alt="">
+                                </div>
                             <#else>
-                                <input type="text" name="address" value="" readonly>
+                                <div style="display: flex; flex-direction: row">
+                                    <input type="text" class="info" name="address" value="" readonly>
+                                    <img src="../static/galka001.png" id="${profile.telephoneNumber}" class="galka_set" style="display: none; cursor: pointer; float: right;width: 20px; aspect-ratio: 1/1" alt="">
+                                    <img src="../static/pencil.png" class="pencil" style="cursor: pointer; float: right;width: 20px; aspect-ratio: 1/1" alt="">
+                                </div>
+
                             </#if>
                         </div>
                     </div>
-                    <table style="width: 100%">
+                    <table style="width: 100%; margin-bottom: 15px">
                         <tr style="border-bottom: 2px white solid">
                             <td style="width: 50%">Время заказа</td><td style="width: 20%">Сумма</td><td style="width: 30%">Информация</td>
                         </tr>
                         <#if orders??>
                             <#list orders as order>
+                                <div class="food food_history" id="history" style="display: none">
+                                    <h4 class="exit_history" style="cursor: pointer; margin-left: auto; width: 25px">x</h4>
+                                        <#if order.listFood?has_content>
+                                            <#list order.listFood as eat>
+                                                <div class="col-md-4 col-sm-8 removable check_food" id="${eat.id}" style="width: 100%!important; height: 240px">
+                                                    <div class="description col" id="description"
+                                                         style="border-radius: 25px; position: relative">
+                                                        <img class="eat img-fluid w-50" src="../${eat.icon}" alt=""
+                                                             style="aspect-ratio: 1/1; width: 200px!important;">
+                                                        <div class="row w-50 float-end ">
+                                                            <h4 style="color: white; text-decoration: underline">${eat.title}</h4>
+                                                            <h6 style="color: white">${eat.description}</h6>
+                                                            <h6 style="color: white; font-size: 0.8rem">${eat.calories}ккал</h6>
+                                                            <h6 style="color: white; font-size: 0.7rem; margin-top: 20px">${eat.price}p</h6>
+                                                            <h4 style="float: right; margin-right: 10px; margin-bottom: 10px" class="number">${eat.num}</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </#list>
+                                        </#if>
+                                    </div>
                                 <tr>
-                                    <td>${order.date}</td><td>${order.price} Р</td><td>Посмотреть</td>
+                                    <td>${order.date}</td><td>${order.price} Р</td><td class="watch_order" style="cursor: pointer; text-decoration: underline">Посмотреть</td>
                                 </tr>
                             </#list>
                         </#if>
@@ -183,11 +220,6 @@
 
 <script>
     <#include "homepage_script.js">
-    $(document).ready(function () {
-        function basket() {
-            window.location.replace("/bonappetit/basket");
-        }
-    });
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

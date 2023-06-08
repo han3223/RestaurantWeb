@@ -61,10 +61,17 @@ $('.container_eat').hover(function () {
 $(document).on('click', '#hall', function () {
     $('#delivery').css('background', '#a3a4ae')
     $(this).css('background', '#5d607e')
+    $('#select_address').css('display', 'block')
+    $('#input_address').css('display', 'none')
+    $('#location').html('В зале')
 });
 $(document).on('click', '#delivery', function () {
     $('#hall').css('background', '#a3a4ae')
     $(this).css('background', '#5d607e')
+    $('#select_address').css('display', 'none')
+    $('#input_address').css('display', 'block')
+    $('#location').html('Доставка')
+
 });
 $(document).on('click', '.back', function () {
     $('.carousel-inner').eq($('.back').index(this)).animate({scrollLeft: '-=280'});
@@ -371,10 +378,6 @@ $(document).on('click', '.sign_plus', function () {
 
 });
 
-$(document).on('click', '.submit', function () {
-    $.post('/handler/add-order', {}, function (data) {});
-});
-
 $(document).on('click', '#forgot', function () {
     $('#forgot_form').css("display", "flex");
     $('#login_form').css("display", "none");
@@ -397,6 +400,57 @@ $(document).on('click', '.prev', function () {
 $('#email').focusin(function () {
     $('.tooltipster-base').css("display", "flex");
 });
+
+
+$(document).on('click', '.exit_history', function () {
+    $(this).parent().css('display', 'none');
+});
+$(document).on('click', '.watch_order', function () {
+    var index = $(this).index('.watch_order');
+    $('.food_history').eq(index).css('display', 'block');
+});
+
+$(document).on('click', '.pencil', function () {
+    var index = $(this).index('.pencil');
+    var myInput = $('.info').eq(index);
+    var val = myInput.val();
+    myInput.focus();
+    myInput.removeAttr('readonly');
+    myInput[0].selectionStart = val.length;
+    myInput[0].selectionEnd = val.length;
+    $('.galka_set').eq(index).css('display', 'block')
+});
+
+$(document).on('click', '.galka_set', function () {
+    var index = $(this).index('.galka_set');
+    var number = $(this).attr('id');
+    var myInput = $('.info').eq(index);
+    var val = myInput.val();
+    if (index == 0) {
+        $.post('/handler/update_number', {
+            value: val,
+            phone: number
+        }, function (data) {
+            console.log("sucsess")
+        });
+    }
+    if (index == 1) {
+        $.post('/handler/update_email', {
+            value: val,
+            phone: number
+        }, function (data) {
+
+        });
+    }
+    if (index == 2) {
+        $.post('/handler/update_address', {
+            value: val,
+            phone: number
+        }, function (data) {
+        });
+    }
+});
+
 // $(document).on('click', '.exit', function () {
 //     $.get('/handler/exit', function (data) {
 //

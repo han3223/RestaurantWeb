@@ -13,6 +13,7 @@ import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonNull
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.ColumnSet
+import java.lang.reflect.Array.set
 
 
 class SupabaseProfileClient {
@@ -64,7 +65,23 @@ class SupabaseProfileClient {
         return null
     }
 
+    suspend fun updatePhone(numberPhone: String, numberPhoneOld: String) {
+        client.postgrest["profile"].update({set("telephoneNumber", numberPhone)}) {
+            eq("telephoneNumber", numberPhoneOld)
+        }
+    }
 
+    suspend fun updateEmail(email: String, numberPhone: String) {
+        client.postgrest["profile"].update({set("email", email)}) {
+            eq("telephoneNumber", numberPhone)
+        }
+    }
+
+    suspend fun updateAddress(address: String, numberPhone: String) {
+        client.postgrest["profile"].update({set("address", address)}) {
+            eq("telephoneNumber", numberPhone)
+        }
+    }
 
 
 

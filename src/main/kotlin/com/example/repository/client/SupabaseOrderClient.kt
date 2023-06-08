@@ -1,6 +1,6 @@
 package com.example.bonappetitandroid.repository.client
 
-import com.example.bonappetitandroid.dto.Order
+import com.example.bonappetitandroid.dto.OrderGet
 import com.example.bonappetitandroid.dto.OrderSet
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
@@ -22,7 +22,7 @@ class SupabaseOrderClient {
         client.postgrest["order"].insert(order)
     }
 
-    suspend fun getOrderByProfile(idProfile: Int): List<Order> {
+    suspend fun getOrderByProfile(idProfile: Int): List<OrderGet> {
         return client.postgrest["order"].select { eq("user", idProfile) }.decodeList()
     }
 }

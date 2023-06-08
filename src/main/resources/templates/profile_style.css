@@ -36,11 +36,17 @@ td {
     position: relative;
 }
 
-#profile_info > input {
+#profile_info > div > input {
     border: none;
     width: 80%;
     background-color: transparent;
     color: white;
+    outline: none;
+    text-decoration: underline;
+}
+
+.watch_order:hover {
+    color: #c5c5c5;
 }
 
 .container_long_input_log>input,

@@ -1,3 +1,12 @@
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 header {
     position: sticky;
     top: -140px;
@@ -215,11 +224,18 @@ img {
     border-radius: 10px 0 0 10px;
 }
 
+#hall:hover {
+    background-color: #50536d;
+}
+
 #delivery {
     background-color: #a3a4ae;
     border: none;
     height: 40px;
     border-radius: 0 10px 10px 0;
+}
+#delivery:hover {
+    background-color: #91929a;
 }
 
 .select > .w-100 {
@@ -228,11 +244,17 @@ img {
     height: 40px;
     border-radius: 10px;
     margin-top: 5px;
+    outline: none;
+}
+
+.select > .w-100:focus {
+    border: none;
 }
 
 .submit {
     background-color: #5d607e;
-    height: 30px;
+    height: 40px!important;
+    width: 150px!important;
     border-radius: 10px;
 }
 
@@ -268,6 +290,28 @@ img {
 }
 
 #carousel_eat::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+#history {
+    width: 100%;
+    overflow-y: auto;
+    height: 100%;
+    justify-content: start;
+    position: absolute;
+    border-radius: 25px;
+    scrollbar-width: none;
+    background-color: black;
+    overflow: auto;
+    -ms-overflow-style: none;
+}
+
+td {
+    padding-left: 10px;
+}
+
+#history::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
@@ -311,7 +355,7 @@ body::-webkit-scrollbar-thumb {
 
 .minus {
     border-radius: 12px 0 0 12px;
-    background-color: #4886ff;
+    background-color: #5c92fd;
     height: 60%;
     width: 30%;
     text-align: center;
@@ -337,6 +381,14 @@ body::-webkit-scrollbar-thumb {
     height: 60%;
     width: 30%;
     text-align: center;
+}
+
+.plus:hover {
+    background-color: #3b6ed2;
+}
+
+.minus:hover {
+    background-color: #5181e0;
 }
 
 .sign_minus {
@@ -368,6 +420,22 @@ footer {
     top: 100%;
 }
 
+section {
+    cursor: pointer;
+}
+
+input {
+    cursor: pointer;
+}
+
+.submit {
+    color: white;
+}
+
+.submit:hover {
+    background-color: #4d4f67;
+}
+
 form > input {
     width: 70%;
     margin-bottom: 5px;
@@ -377,12 +445,6 @@ form > input[type="submit"] {
     margin-top: 5px;
     margin-bottom: 30px;
 }
-
-
-
-
-
-
 
 
 
